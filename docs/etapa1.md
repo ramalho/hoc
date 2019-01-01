@@ -1,6 +1,6 @@
-# `hoc1`: calculadora de quatro operações
+# hoc1: calculadora de quatro operações
 
-Esta página descreve o programa do diretório [`etapa1/`](https://github.com/ramalho/hoc/tree/master/etapa1).
+Esta página descreve o programa do diretório [etapa1/](https://github.com/ramalho/hoc/tree/master/etapa1).
 
 * [Exemplo de uso](#Exemplo-de-uso)
 * [Como compilar](#Como-compilar)
@@ -22,7 +22,7 @@ $ ./hoc1
 	100
 ```
 
-## Como compilar
+## Construção do programa
 
 ### Passo 1: gerar o *parser*
 
@@ -85,7 +85,7 @@ Assim conferimos que 2 + 2 é 4, 100 °F é 37.777776 °C, e 38 °C é 100.4 °F
 
 ## Explicação do programa
 
-O código fonte de `hoc1` é `hoc1.y`. A seguir vamos explicar suas 66 linhas. Neste exemplo simples de uso de **yacc**, temos um *parser* (analisador sintático) que efetua operações diretamente. Em um interpretador mais sofisticado, como veremos a partir da etapa 4, o parser produz uma representação interna do programa, que é passada para um *evaluator* (avaliador), que efetivamente executa as instruções.
+O código fonte de `hoc1` é [`hoc1.y`](https://github.com/ramalho/hoc/blob/master/etapa1/hoc1.y). A seguir vamos explicar suas 66 linhas. Neste exemplo simples de uso de **yacc**, temos um *parser* (analisador sintático) que efetua operações diretamente. Em um interpretador mais sofisticado, como veremos a partir da etapa 4, o parser produz uma representação interna do programa, que é passada para um *evaluator* (avaliador), que efetivamente executa as instruções.
 
 Note que o código-fonte de `hoc1.y` é uma mistura de linhas em C com linhas na sintaxe especial de **yacc**.
 

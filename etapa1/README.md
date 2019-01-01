@@ -109,11 +109,11 @@ Aqui temos:
 
 #### Termos técnicos
 
-**Token** é o menor elemento sintático significativo. Por exemplo, a expressão `6.5 <= alfa` contém 3 *tokens*: `6.5`, `<=` e `alfa`. Os espaços servem apenas para separar os elementos, e os caracteres são juntados par formar números, símbolos e palavras completas.
+**Token** é o menor elemento sintático significativo. Por exemplo, a expressão `6.5 <= alfa` contém 3 *tokens*: `6.5`, `<=` e `alfa`. Os espaços servem apenas para separar os elementos, e os caracteres são juntados para formar números, símbolos e palavras completas.
 
 **Precedência** é a ordem de execução dos diferentes operadores. Por exemplo, queremos que as multiplicações e divisões sejam feitas antes das somas e subtrações. Ou seja, o resultado de `4 + 3 * 2` é o mesmo que `4 + 6` (=10) e não `7 * 2` (=14).
 
-**Associatividade** é a ordem de execução de uma sequência com o mesmo operador. Por exemplo, a **associatividade esquerda** do operador `+` significa que `4 + 3 + 2` é calculado como `(4 + 3) + 2`. O contrário, **associatividade direita**, é o caso de um operador de exponenciação `^` para escrever 2<sup>3</sup> como `2 ^ 3` (=8). Conforme a convenção matemática, queremos que o valor de 4<sup>3<sup>2</sup></sup>, escrito como `4 ^ 3 ^ 2`, seja calculado a partir da direita, assim: `4 ^ (3 ^ 2)`, o mesmo que `4 ^ 9` (=262144). Neste caso seria errado fazer `(4 ^ 3) ^ 2`, que seria como `64 ^ 2` (=4096).
+**Associatividade** é a ordem de execução de uma sequência com o mesmo operador. Por exemplo, a **associatividade esquerda** do operador `+` significa que `4 + 3 + 2` é calculado da esquerda para direita, assim: `(4 + 3) + 2`. O contrário, **associatividade direita**, é o caso de um operador de exponenciação `^` para escrever 2<sup>3</sup> como `2 ^ 3` (=8). Conforme a convenção matemática, queremos que o valor de 4<sup>3<sup>2</sup></sup>, escrito como `4 ^ 3 ^ 2`, seja calculado a partir da direita, assim: `4 ^ (3 ^ 2)`, o mesmo que `4 ^ 9` (=262144). Neste caso seria errado fazer `(4 ^ 3) ^ 2`, que seria como `64 ^ 2` (=4096).
 
 
 #### Regras sintáticas
@@ -152,7 +152,7 @@ A regra sobre `expr` é mais interessante. São 6 formas, cada uma com uma expre
 
 1. um número simples, ex. 1.23 — seu valor é o valor da própria expressão, `$1`;
 2. duas expressões com o caractere `'+'` no meio — seu valor é a soma das duas expressões;
-3. duas expressões com o caractere `'-'` no meio — seu valor é a substração da primeira pela segunda expressão;
+3. duas expressões com o caractere `'-'` no meio — seu valor é a subtração da primeira pela segunda expressão;
 4. duas expressões com o caractere `'*'` no meio — seu valor é a multiplicação das duas expressões;
 5. duas expressões com o caractere `'/'` no meio — seu valor é a divisão da primeira pela segunda expressão;
 6. um caractere `'('`, uma expressão, e um caractere `')'` — seu valor é o valor da expressão no meio.
@@ -185,7 +185,7 @@ A função `main` faz apenas duas coisas:
 1. Atribuir o valor do primeiro argumento da linha de comando à variável `progname`. Esse valor será `"hoc1"` neste exemplo.
 2. Invocar a função `yyparse`. Esta função não é definida em lugar algum de `hoc1.y`, mas será gerada pelo **yacc/bison** quando você executar o comando `yacc hoc1.y` no *terminal*.
 
-Se você inspecionar o arquivo gerado, `y.tab.c`, verá que o `yyparse` gerado para este exemplo simples tem 506 linhas de código (da linha 961 à 1466).
+Se você inspecionar o arquivo gerado, `y.tab.c`, verá que o `yyparse` gerado para este exemplo simples tem cerca de 500 linhas de código (da linha 961 à 1466 no meu caso, mas pode ser diferente para você).
 
 ### Analisador léxico
 

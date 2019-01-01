@@ -1,0 +1,12 @@
+proc fib() {
+	a = 0
+	b = 1
+	while (b < $1) {
+		print b
+		c = b
+		b = a+b
+		a = c
+	}
+	print "\n"
+}
+fib(1000)

@@ -117,7 +117,7 @@ Aqui temos:
 
 **Precedência** é a ordem de execução dos diferentes operadores. Por exemplo, queremos que as multiplicações e divisões sejam feitas antes das somas e subtrações. Ou seja, o resultado de `4 + 3 * 2` é o mesmo que `4 + 6` (=10) e não `7 * 2` (=14).
 
-**Associatividade** é a ordem de execução de uma sequência com o mesmo operador. Por exemplo, a **associatividade esquerda** do operador `+` significa que `4 + 3 + 2` é calculado da esquerda para direita, assim: `(4 + 3) + 2`. O contrário, **associatividade direita**, é o caso de operador de exponenciação `^` para calcular 2³ como `2 ^ 3` (=8). Conforme a convenção matemática, queremos que o valor de `4 ^ 3 ^ 2`, seja calculado a partir da direita, assim: `4 ^ (3 ^ 2)`, o mesmo que `4 ^ 9` (=262144). Neste caso seria errado fazer `(4 ^ 3) ^ 2`, que seria `64 ^ 2` (=4096).
+**Associatividade** é a ordem de execução de uma sequência com o mesmo operador. Por exemplo, a **associatividade esquerda** do operador `+` significa que `4 + 3 + 2` é calculado da esquerda para direita, assim: `(4 + 3) + 2`. Um exemplo do caso contrário, **associatividade direita**, é o operador de exponenciação `^` para calcular 2³ como `2 ^ 3` (=8). Conforme a convenção da matemática, queremos que o valor de `4 ^ 3 ^ 2`, seja calculado a partir da direita, assim: `4 ^ (3 ^ 2)`, o mesmo que `4 ^ 9` (=262144). Neste caso seria errado fazer `(4 ^ 3) ^ 2`, que seria `64 ^ 2` (=4096).
 
 #### Regras sintáticas
 

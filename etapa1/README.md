@@ -38,7 +38,7 @@ $ ls
 hoc1  hoc1.y  README.md  y.tab.c
 ```
 
-> ✋ Eu gostaria de eliminar todos os avisos gerados nessa compilação, se possível sem suprimir os avisos no compilador e sim codando defensivamente. Porém tenho pouca experiência com C, e alguns avisos vêm do código gerado, `y.tab.c`, então não sei como resolver. Se você sabe resolver pelo menos em parte esses avisos, faça um *pull request* ou entre em contato pelo *issue tracker* do repositório para a gente parear.
+> ✋ Eu gostaria de eliminar todos os avisos gerados nessa compilação, se possível sem suprimir os avisos no compilador, mas sim seguindo as regras dele. Porém tenho pouca experiência com C, e alguns avisos vêm do código gerado, `y.tab.c`, então não sei como resolver. Se você sabe resolver pelo menos parte desses avisos, faça um *pull request* ou entre em contato pelo *issue tracker* do repositório para a gente parear. Agradeço desde já!
 
 ### Passo 3: testar
 

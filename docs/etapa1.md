@@ -58,7 +58,7 @@ $ ls
 hoc1  hoc1.y  README.md  y.tab.c
 ```
 
-> ✋ Eu gostaria de eliminar todos os avisos gerados nessa compilação, se possível sem suprimir os avisos no compilador e sim codando defensivamente. Porém tenho pouca experiência com C, e alguns avisos vêm do código gerado, `y.tab.c`, então não sei como resolver. Se você sabe resolver pelo menos parte desses avisos, faça um *pull request* ou entre em contato pelo *issue tracker* do repositório para a gente parear. Agradeço desde já!
+> ✋ Eu gostaria de eliminar todos os avisos gerados nessa compilação, se possível sem suprimir os avisos no compilador, mas sim seguindo as regras dele. Porém tenho pouca experiência com C, e alguns avisos vêm do código gerado, `y.tab.c`, então não sei como resolver. Se você sabe resolver pelo menos parte desses avisos, faça um *pull request* ou entre em contato pelo *issue tracker* do repositório para a gente parear. Agradeço desde já!
 
 ### Passo 3: testar
 
@@ -117,11 +117,11 @@ Aqui temos:
 
 **Precedência** é a ordem de execução dos diferentes operadores. Por exemplo, queremos que as multiplicações e divisões sejam feitas antes das somas e subtrações. Ou seja, o resultado de `4 + 3 * 2` é o mesmo que `4 + 6` (=10) e não `7 * 2` (=14).
 
-**Associatividade** é a ordem de execução de uma sequência com o mesmo operador. Por exemplo, a **associatividade esquerda** do operador `+` significa que `4 + 3 + 2` é calculado da esquerda para direita, assim: `(4 + 3) + 2`. O contrário, **associatividade direita**, é o caso de um operador de exponenciação `^` para escrever 2<sup>3</sup> como `2 ^ 3` (=8). Conforme a convenção matemática, queremos que o valor de 4<sup>3<sup>2</sup></sup>, escrito como `4 ^ 3 ^ 2`, seja calculado a partir da direita, assim: `4 ^ (3 ^ 2)`, o mesmo que `4 ^ 9` (=262144). Neste caso seria errado fazer `(4 ^ 3) ^ 2`, que seria como `64 ^ 2` (=4096).
+**Associatividade** é a ordem de execução de uma sequência com o mesmo operador. Por exemplo, a **associatividade esquerda** do operador `+` significa que `4 + 3 + 2` é calculado da esquerda para direita, assim: `(4 + 3) + 2`. O contrário, **associatividade direita**, é o caso de operador de exponenciação `^` para calcular 2³ como `2 ^ 3` (=8). Conforme a convenção matemática, queremos que o valor de `4 ^ 3 ^ 2`, seja calculado a partir da direita, assim: `4 ^ (3 ^ 2)`, o mesmo que `4 ^ 9` (=262144). Neste caso seria errado fazer `(4 ^ 3) ^ 2`, que seria `64 ^ 2` (=4096).
 
 #### Regras sintáticas
 
-O próximo trecho define duas regras sintáticas, `list` e `expr`:
+O próximo trecho delimitado por `%%` define duas regras sintáticas, `list` e `expr`:
 
 ```
 %%
@@ -149,9 +149,9 @@ A primeira regra diz que uma `list` pode ter 3 formas:
 
 Essa é uma definição recursiva, que na prática diz que uma lista pode ser formada por 0 ou mais `expr` separadas por `'\n'`.
 
-A terceira forma de `list` contém um bloco de código à direita, com uma chamada para `printf`. Quando o analisador sintático casa um trecho do código-fonte com essa forma, temos uma `expr` seguida de `'\n'`, e podemos exibir seu resultado, que estará em `$2` (a explicação de `$$`, `$1`, `$2` etc. está no manual do **yacc/bison**; aqui nosso objetivo é ter uma visão de alto nível do programa). 
+A terceira forma de `list` contém um bloco de código `{…}` à direita, com uma chamada para `printf`. Quando o analisador sintático casa um trecho do código-fonte com essa forma, temos uma `expr` seguida de `'\n'`, e podemos exibir seu resultado, que estará em `$2`. 
 
-A regra sobre `expr` é mais interessante. São 6 formas, cada uma com uma expressão à direita para computar seu valor:
+A regra sobre `expr` é mais interessante. São 6 formas, cada uma com um bloco `{…}` à direita para computar seu valor:
 
 1. um número simples, ex. 1.23 — seu valor é o valor da própria expressão, `$1`;
 2. duas expressões com o caractere `'+'` no meio — seu valor é a soma das duas expressões;

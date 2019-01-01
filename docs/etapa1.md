@@ -186,9 +186,9 @@ main(int argc, char* argv[])	/* hoc1 */
 A função `main` faz apenas duas coisas:
 
 1. Atribuir o valor do primeiro argumento da linha de comando à variável `progname`. Esse valor será `"hoc1"` neste exemplo.
-2. Invocar a função `yyparse`. Esta função não é definida em lugar algum de `hoc1.y`, mas será gerada pelo **yacc/bison** quando você executar o comando `yacc hoc1.y` no *terminal*.
+2. Invocar a função `yyparse`. Esta função não é definida em lugar algum de `hoc1.y`, mas será gerada pelo **yacc/bison** quando você executar o comando `yacc hoc1.y` no terminal.
 
-Se você inspecionar o arquivo gerado, `y.tab.c`, verá que o `yyparse` gerado para este exemplo simples tem cerca de 500 linhas de código (da linha 961 à 1466 no meu caso, mas pode ser diferente para você).
+Se você inspecionar o arquivo gerado, `y.tab.c`, verá que a função `yyparse` para este exemplo simples tem cerca de 500 linhas de código (da linha 961 à 1466 no meu caso, mas pode ser diferente para você).
 
 ### Analisador léxico
 
@@ -218,17 +218,17 @@ yylex(void)			/* hoc1 */
 }
 ```
 
-1. Laço `while` que consome caracteres brancos (espaços tabs), deixando na variável `c` o primeiro caractere não-branco.
-2. Se `c` é EOF, devolva o valor 0, sinalizando para `yyparse` que não há mais nada a ser lido.
-3. Se `c` é um ponto ou um dígito, devolva ele ao *buffer* de entrada (`ungetc`), use a função `scanf` para ler um número de ponto flutuante para dentro da variável global `yylval`, e devolva o código `NUMBER`.
-4. Se `c` é uma quebra de linha, incremmente o contador de linhas.
+1. Laço `while` que consome caracteres brancos (espaços e tabs), deixando na variável `c` o primeiro caractere não-branco.
+2. Se `c` é EOF, devolva o código 0, sinalizando para `yyparse` que não há mais nada a ser lido.
+3. Se `c` é um ponto ou um dígito, coloque ele de volta no *buffer* de entrada (`ungetc`), use a função `scanf` para ler um número de ponto flutuante para dentro da variável global `yylval`, e devolva o código `NUMBER`.
+4. Se `c` é uma quebra de linha, incremente o contador de linhas.
 5. Do contrário, devolva o código ASCII do caractere lido.
 
 Na etapa 3, Kernighan e Pike mostram rapidamente o uso de **lex** para gerar o analisador léxico a partir de regras com expressões regulares.
 
 ### Tratamento de erros
 
-O código gerado por **yacc/bison** depende também de uma função `yyerror`, que será chamada para reportar ou tratar situações de erro. Neste exemplo, `yyerror` apenas invoca uma função `warning`, definida no mesmo arquivo `hoc1.y`.
+O código gerado por **yacc/bison** também precisa que você forneça uma função `yyerror`, que será chamada para reportar ou tratar situações de erro. Neste exemplo, `yyerror` apenas invoca uma função `warning`, definida no mesmo arquivo `hoc1.y`.
 
 ```
 void

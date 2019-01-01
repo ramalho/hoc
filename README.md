@@ -2,19 +2,21 @@
 
 * [Porque isso é interessante](#Porque-isso-é-interessante)
 * [Sobre este repositório](#Sobre-este-repositório)
-* [Características de `hoc`](#Características-de-`hoc`)
+* [Características de `hoc`](#Características-de-hoc)
 
 ## Porque isso é interessante
 
 `hoc` é uma pequena linguagem [Turing-completa](https://pt.wikipedia.org/wiki/Turing_completude) apresentada no capítulo 8 do livro [The Unix Programming Environment](https://en.wikipedia.org/wiki/) de Brian W. Kernighan e Rob Pike (Prentice Hall, 1984).
 
-Este exemplo serve para apresentar as seguintes ferramentas do ambiente UNIX:
+Estudar a implementação de `hoc` em C é uma boa maneira de aprender como funciona um interpretador por dentro. Um conhecimento básico de C é suficiente para acompanhar este exemplo.
 
-* [**yacc**](https://pt.wikipedia.org/wiki/Yacc): um gerador de analisador sintático, ou seja, um programa que gera um *parser* a partir da descrição formal de uma linguagem;
+No livro [UPE](https://en.wikipedia.org/wiki/), `hoc` serve para apresentar as seguintes ferramentas do ambiente UNIX:
+
+* [**yacc**](https://pt.wikipedia.org/wiki/Yacc): um gerador de analisador sintático, ou seja, um programa que gera o código-fonte de um *parser* a partir da descrição formal de uma linguagem;
 * [**lex**](https://pt.wikipedia.org/wiki/Lex): um gerador de analisador léxico, muitas vezes usado em conjunto com **yacc**;
 * [**make**](https://pt.wikipedia.org/wiki/Make): um utilitário que automatiza tarefas na construção de programas.
 
-> Desde que o GNU Linux substituiu na prática os UNIX proprietários, **yacc** e **lex** também foram superados por ferramentas livres mais modernas: [**GNU bison**](https://pt.wikipedia.org/wiki/GNU_bison) e [**flex**](https://en.wikipedia.org/wiki/Flex_(lexical_analyser_generator)). Em muitos ambientes, ao instalar **bison** e **flex** você ganha também atalhos chamados `yacc` e `lex` que emulam o funcionamento das ferramentas originais.
+> Desde que o GNU Linux substituiu no mercado os UNIX proprietários, **yacc** e **lex** também foram superados por ferramentas livres mais modernas: [**GNU bison**](https://pt.wikipedia.org/wiki/GNU_bison) e [**flex**](https://en.wikipedia.org/wiki/Flex_(lexical_analyser_generator)). Em muitos ambientes, ao instalar **bison** e **flex** você ganha também atalhos chamados `yacc` e `lex` que emulam o funcionamento das ferramentas antigas.
 
 ## Sobre este repositório
 

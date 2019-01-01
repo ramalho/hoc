@@ -6,9 +6,9 @@
 
 ## Porque isso é interessante
 
-No capítulo 8 do livro [The Unix Programming Environment](https://en.wikipedia.org/wiki/), Brian W. Kernighan e Rob Pike apresentam como construir uma uma pequena linguagem [Turing-completa](https://pt.wikipedia.org/wiki/Turing_completude) chamada `hoc` (higher-order calculator).
+No capítulo 8 do livro [The Unix Programming Environment](https://en.wikipedia.org/wiki/) (UPE), Brian W. Kernighan e Rob Pike mostram como construir uma uma pequena linguagem [Turing-completa](https://pt.wikipedia.org/wiki/Turing_completude) chamada `hoc` (higher-order calculator).
 
-No livro [UPE](https://en.wikipedia.org/wiki/), `hoc` serve para apresentar as seguintes ferramentas do ambiente UNIX:
+Em [UPE](https://en.wikipedia.org/wiki/), `hoc` serve para apresentar as seguintes ferramentas do ambiente UNIX:
 
 * [**yacc**](https://pt.wikipedia.org/wiki/Yacc): um gerador de analisador sintático, ou seja, um programa que gera o código-fonte de um *parser*, a partir da descrição formal de uma linguagem;
 * [**lex**](https://pt.wikipedia.org/wiki/Lex): um gerador de analisador léxico, muitas vezes usado em conjunto com **yacc**;
@@ -24,9 +24,9 @@ Decidi estudar este exemplo para aprender o básico de **lex** e **yacc**, antes
 
 ## Características de `hoc`
 
-* apenas um tipo de dado: números de ponto flutuante;
+* só um tipo de dado: números de ponto flutuante;
 * interpretador interativo: pode ser usado como um [REPL](https://es.wikipedia.org/wiki/REPL) ou lendo arquivos-fonte;
-* operadores aritméticos e funções pré-definidas (`sqrt`, `log`, `sin` etc.);
+* operadores aritméticos e funções pré-definidas `sqrt`, `log`, `sin` etc.;
 * constantes pré-definidas `PI`, `E`, `PHI` etc.;
 * comandos de controle de fluxo: `if-else`, `while`;
 * funções e procedimentos definidos pelo usuário, com recursividade.
@@ -69,12 +69,12 @@ O diretório `/complete` é um fork do repositório [richardfearn/hoc](https://g
 
 Os demais diretórios contém as 6 etapas da construção de `hoc`, como descrito em [The Unix Programming Environment](https://en.wikipedia.org/wiki/):
 
-1. calculadora aritmética, expressões computadas imediatamente;
-2. variáveis de `a` a `z`;
-3. variáveis com nomes mais longos, funções e constantes pré-definidas (`sin`, `PI`, etc.);
-4. refatoração implementando linguagem intermediária baseada em pilha;
-5. controle de fluxo, blocos delimitados por `{}` e operadores relacionais (`>`, `>=`, etc.).
-6. comandos `func` e `proc` para definir funções e procedimentos recursivos; entrada e saída de *strings* além de números.
+* [**Etapa 1**](etapa1.md): calculadora aritmética, expressões computadas imediatamente;
+* **Etapa 2**: variáveis de `a` a `z`;
+* **Etapa 3**: variáveis com nomes mais longos, funções e constantes pré-definidas (`sin`, `PI`, etc.);
+* **Etapa 4**: refatoração implementando linguagem intermediária baseada em pilha;
+* **Etapa 5**: controle de fluxo, blocos delimitados por `{}` e operadores relacionais (`>`, `>=`, etc.).
+* **Etapa 6**: comandos `func` e `proc` para definir funções e procedimentos recursivos; entrada e saída de *strings* além de números.
 
 O diretório `/docs` contém esta página que você está lendo, entre outras.
 

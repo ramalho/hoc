@@ -1,4 +1,4 @@
-# *hoc1:* calculadora de quatro operações
+# *hoc1*: calculadora de quatro operações
 
 Esta página descreve o programa do diretório [etapa1/](https://github.com/ramalho/hoc/tree/master/etapa1).
 

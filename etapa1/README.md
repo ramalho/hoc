@@ -1,4 +1,4 @@
-# `hoc1`: calculadora de quatro operações
+# *hoc1*: calculadora de quatro operações
 
 Veja o [código desta etapa explicado](https://ramalho.github.io/hoc/etapa1).
 

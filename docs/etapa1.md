@@ -1,4 +1,4 @@
-# hoc1: calculadora de quatro operações
+# *hoc1:* calculadora de quatro operações
 
 Esta página descreve o programa do diretório [etapa1/](https://github.com/ramalho/hoc/tree/master/etapa1).
 
@@ -53,12 +53,12 @@ y.tab.c: In function ‘yyparse’:
 y.tab.c:1118:16: warning: implicit declaration of function ‘yylex’ [-Wimplicit-function-declaration]
        yychar = yylex ();
                 ^~~~~
-(vários outros avisos...)
+(...vários outros avisos...)
 $ ls
 hoc1  hoc1.y  README.md  y.tab.c
 ```
 
-> ✋ Eu gostaria de eliminar todos os avisos gerados nessa compilação, se possível sem suprimir os avisos no compilador e sim codando defensivamente. Porém tenho pouca experiência com C, e alguns avisos vêm do código gerado, `y.tab.c`, então não sei como resolver. Se você sabe resolver pelo menos em parte esses avisos, faça um *pull request* ou entre em contato pelo *issue tracker* do repositório para a gente parear.
+> ✋ Eu gostaria de eliminar todos os avisos gerados nessa compilação, se possível sem suprimir os avisos no compilador e sim codando defensivamente. Porém tenho pouca experiência com C, e alguns avisos vêm do código gerado, `y.tab.c`, então não sei como resolver. Se você sabe resolver pelo menos parte desses avisos, faça um *pull request* ou entre em contato pelo *issue tracker* do repositório para a gente parear. Agradeço desde já!
 
 ### Passo 3: testar
 
@@ -85,7 +85,9 @@ Assim conferimos que 2 + 2 é 4, 100 °F é 37.777776 °C, e 38 °C é 100.4 °F
 
 ## Explicação do programa
 
-O código fonte de `hoc1` é [`hoc1.y`](https://github.com/ramalho/hoc/blob/master/etapa1/hoc1.y). A seguir vamos explicar suas 66 linhas. Neste exemplo simples de uso de **yacc**, temos um *parser* (analisador sintático) que efetua operações diretamente. Em um interpretador mais sofisticado, como veremos a partir da etapa 4, o parser produz uma representação interna do programa, que é passada para um *evaluator* (avaliador), que efetivamente executa as instruções.
+O código fonte de `hoc1` é [`hoc1.y`](https://github.com/ramalho/hoc/blob/master/etapa1/hoc1.y). A seguir vamos explicar suas 66 linhas.
+
+Neste exemplo simples de uso de **yacc**, temos um *parser* (analisador sintático) que efetua operações diretamente. Em um interpretador mais sofisticado, como veremos a partir da etapa 4, o parser produz uma representação interna do programa, que é passada para um *evaluator* (avaliador), que efetivamente executa as instruções.
 
 Note que o código-fonte de `hoc1.y` é uma mistura de linhas em C com linhas na sintaxe especial de **yacc**.
 
@@ -116,7 +118,6 @@ Aqui temos:
 **Precedência** é a ordem de execução dos diferentes operadores. Por exemplo, queremos que as multiplicações e divisões sejam feitas antes das somas e subtrações. Ou seja, o resultado de `4 + 3 * 2` é o mesmo que `4 + 6` (=10) e não `7 * 2` (=14).
 
 **Associatividade** é a ordem de execução de uma sequência com o mesmo operador. Por exemplo, a **associatividade esquerda** do operador `+` significa que `4 + 3 + 2` é calculado da esquerda para direita, assim: `(4 + 3) + 2`. O contrário, **associatividade direita**, é o caso de um operador de exponenciação `^` para escrever 2<sup>3</sup> como `2 ^ 3` (=8). Conforme a convenção matemática, queremos que o valor de 4<sup>3<sup>2</sup></sup>, escrito como `4 ^ 3 ^ 2`, seja calculado a partir da direita, assim: `4 ^ (3 ^ 2)`, o mesmo que `4 ^ 9` (=262144). Neste caso seria errado fazer `(4 ^ 3) ^ 2`, que seria como `64 ^ 2` (=4096).
-
 
 #### Regras sintáticas
 

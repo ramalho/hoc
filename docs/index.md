@@ -1,4 +1,4 @@
-# Construção da linguagem `hoc`
+# Construção da linguagem *hoc*
 
 * [Porque isso é interessante](#Porque-isso-é-interessante)
 * [Características de `hoc`](#Características-de-hoc)
@@ -22,7 +22,7 @@ Estudar a implementação de `hoc` em C é uma boa maneira de aprender como func
 
 Decidi estudar este exemplo para aprender o básico de **lex** e **yacc**, antes de estudar o pacote [**SLY**](https://github.com/dabeaz/sly) de David Beazley, que implementa funcionalidade semelhante em Python, usando metaprogramação em vez de geração de código. Meu plano é usar **SLY** na [Oficina de Linguagens de Programação](https://garoa.net.br/wiki/Turing_Clube/Oficina_de_Linguagens_de_Programa%C3%A7%C3%A3o) do Garoa Hacker Clube. Como achei o exemplo `hoc` muito interessante, e não encontrei o livro [UPE](https://en.wikipedia.org/wiki/) em português, resolvi contribuir para a nossa cultura de computação apresentando esse exemplo em nosso idioma.
 
-## Características de `hoc`
+## Características de *hoc*
 
 * só um tipo de dado: números de ponto flutuante;
 * interpretador interativo: pode ser usado como um [REPL](https://es.wikipedia.org/wiki/REPL) ou lendo arquivos-fonte;

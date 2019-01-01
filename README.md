@@ -1,7 +1,7 @@
 # Linguagem `hoc`
 
 * [Porque isso é interessante](#Porque-isso-é-interessante)
-* [Sobre este repositório](#Sobre-este-repositório)
+* [Organização deste repositório](#Organização-deste-repositório)
 * [Características de `hoc`](#Características-de-hoc)
 
 ## Porque isso é interessante
@@ -12,17 +12,21 @@ Estudar a implementação de `hoc` em C é uma boa maneira de aprender como func
 
 No livro [UPE](https://en.wikipedia.org/wiki/), `hoc` serve para apresentar as seguintes ferramentas do ambiente UNIX:
 
-* [**yacc**](https://pt.wikipedia.org/wiki/Yacc): um gerador de analisador sintático, ou seja, um programa que gera o código-fonte de um *parser* a partir da descrição formal de uma linguagem;
+* [**yacc**](https://pt.wikipedia.org/wiki/Yacc): um gerador de analisador sintático, ou seja, um programa que gera o código-fonte de um *parser*, a partir da descrição formal de uma linguagem;
 * [**lex**](https://pt.wikipedia.org/wiki/Lex): um gerador de analisador léxico, muitas vezes usado em conjunto com **yacc**;
 * [**make**](https://pt.wikipedia.org/wiki/Make): um utilitário que automatiza tarefas na construção de programas.
 
-> Desde que o GNU Linux substituiu no mercado os UNIX proprietários, **yacc** e **lex** também foram superados por ferramentas livres mais modernas: [**GNU bison**](https://pt.wikipedia.org/wiki/GNU_bison) e [**flex**](https://en.wikipedia.org/wiki/Flex_(lexical_analyser_generator)). Em muitos ambientes, ao instalar **bison** e **flex** você ganha também atalhos chamados `yacc` e `lex` que emulam o funcionamento das ferramentas antigas.
+> 🗒 Desde que o GNU Linux substituiu no mercado os UNIX proprietários, **yacc** e **lex** também foram superados por ferramentas livres mais modernas: [**GNU bison**](https://pt.wikipedia.org/wiki/GNU_bison) e [**flex**](https://en.wikipedia.org/wiki/Flex_(lexical_analyser_generator)). Em muitos ambientes, ao instalar **bison** e **flex** você ganha também atalhos chamados `yacc` e `lex` que emulam o funcionamento das ferramentas antigas.
 
-## Sobre este repositório
+### Minha motivação
+
+Decidi estudar este exemplo para aprender o básico de **lex** e **yacc**, antes de estudar o pacote [**SLY**](https://github.com/dabeaz/sly) de David Beazley, que implementa funcionalidade semelhante em Python, usando metaprogramação em vez de geração de código. Meu plano é usar **SLY** na [Oficina de Linguagens de Programação](https://garoa.net.br/wiki/Turing_Clube/Oficina_de_Linguagens_de_Programa%C3%A7%C3%A3o) do Garoa Hacker Clube. Como achei o exemplo `hoc` muito interessante, e não encontrei o livro [UPE](https://en.wikipedia.org/wiki/) em português, resolvi contribuir para a nossa cultura de computação apresentando esse exemplo em nosso idioma.
+
+## Organização deste repositório
 
 O diretório `/complete` é um fork do repositório [richardfearn/hoc](https://github.com/richardfearn/hoc) no GitHub. Richard Fearn obteve o código original em um site que não está disponível em 1/jan/2019 (http://netlib.bell-labs.com/cm/cs/upe/), e o modificou para que fosse possível compilar e executar em um sistema GNU/Linux.
 
-> Você pode compilar o programa rodando `make` no diretório `/complete`, desde que tenha instalado as ferramentas de desenvolvimento do seu sistema, incluindo **bison** e **flex**.
+> 🗒 Você pode compilar o programa rodando `make` no diretório `/complete`, desde que tenha instalado as ferramentas de desenvolvimento do seu sistema, incluindo **bison** e **flex**.
 
 Os demais diretórios contém as 6 etapas da construção de `hoc`, como descrito em [The Unix Programming Environment](https://en.wikipedia.org/wiki/):
 
@@ -70,4 +74,6 @@ fib(1000)
 
 No código acima, a variável `$1` é o primeiro argumento passado para   `fib`. A palavra reservada `proc` serve para declarar um procedimento: uma sub-rotina que não devolve um valor, assim como um médodo do tipo `void` em Java. Para declarar uma função que devolve um número em `hoc`, usa-se  `func`.
 
-> A distinção entre procedimentos e funções é natural para quem já programou em Pascal ou Delphi. Muitas linguagens modernas não separam os dois conceitos claramente. Por exemplo, em Python não há procedimentos, há apenas funções que não devolvem nenhum valor explicitamente (implicitamente, devolvem o valor `None`).
+A distinção entre procedimentos e funções é natural para quem já programou em Pascal ou Delphi. Muitas linguagens modernas não separam os dois conceitos claramente. Por exemplo, em Python não há procedimentos, há apenas funções que não devolvem nenhum valor explicitamente mas, implicitamente, devolvem o valor `None`, que a gente ignora.
+
+*— [LR](https://twitter.com/ramalhoorg)*

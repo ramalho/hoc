@@ -67,17 +67,17 @@ O diretório `/complete` é um fork do repositório [richardfearn/hoc](https://g
 
 > 🗒 Você pode compilar o programa rodando `make` no diretório `/complete`, desde que tenha instalado as ferramentas de desenvolvimento do seu sistema, incluindo **bison** e **flex**.
 
+O diretório `/docs` contém esta página que você está lendo, entre outras.
+
 Os demais diretórios contém as 6 etapas da construção de `hoc`, como descrito em [The Unix Programming Environment](https://en.wikipedia.org/wiki/).
 
 ### Índice de páginas
 
-* [**Etapa 1**](etapa1.md): calculadora aritmética, expressões computadas imediatamente;
-* **Etapa 2**: variáveis de `a` a `z`;
-* **Etapa 3**: variáveis com nomes mais longos, funções e constantes pré-definidas (`sin`, `PI`, etc.);
-* **Etapa 4**: refatoração implementando linguagem intermediária baseada em pilha;
+* [**Etapa 1**](etapa1.md): calculadora aritmética, expressões computadas imediatamente.
+* **Etapa 2**: variáveis de `a` a `z`.
+* **Etapa 3**: variáveis com nomes mais longos, funções e constantes pré-definidas (`sin`, `PI`, etc.).
+* **Etapa 4**: refatoração implementando linguagem intermediária baseada em pilha.
 * **Etapa 5**: controle de fluxo, blocos delimitados por `{}` e operadores relacionais (`>`, `>=`, etc.).
 * **Etapa 6**: comandos `func` e `proc` para definir funções e procedimentos recursivos; entrada e saída de *strings* além de números.
-
-O diretório `/docs` contém esta página que você está lendo, entre outras.
 
 *— [LR](https://twitter.com/ramalhoorg)*

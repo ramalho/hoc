@@ -89,7 +89,7 @@ O programa `hoc1` é um interpretador de expressões aritméticas interativo.
 
 O código fonte está em [`hoc1.y`](https://github.com/ramalho/hoc/blob/master/etapa1/hoc1.y). A seguir vamos explicar suas 66 linhas.
 
-Neste exemplo simples de uso de **yacc**, temos um *parser* (analisador sintático) que efetua operações diretamente. Em um interpretador mais sofisticado, como veremos a partir da etapa 4, o parser produz uma representação interna do programa, que é passada para um *evaluator* (avaliador), que efetivamente executa as instruções.
+Neste exemplo simples de uso de **yacc**, temos um *parser* (analisador sintático) que efetua operações imediatamente, assim que uma estrutura sintática casa com uma regra da gramática. Em um interpretador mais sofisticado, como veremos a partir da etapa 4, o parser produz uma representação interna do programa, que é passada para um *evaluator* (avaliador), que vai executar as instruções.
 
 Note que o código-fonte de `hoc1.y` é uma mistura de linhas em C com linhas na sintaxe especial de **yacc**.
 

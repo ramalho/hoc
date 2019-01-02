@@ -2,8 +2,8 @@
 #define	YYSTYPE double  /* tipo da pilha de yacc */
 %}
 %token	NUMBER
-%left	'+' '-'  /* associação pela esquerda, mesma precedência */
-%left	'*' '/'  /* associação pela direita, maior precedência */
+%left	'+' '-'  /* associatividade esquerda */
+%left	'*' '/'  /* associatividade esquerda, maior precedência */
 %%
 list:	  /* nada */
 	| list '\n'

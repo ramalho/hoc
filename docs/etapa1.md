@@ -95,13 +95,13 @@ Note que o código-fonte de `hoc1.y` é uma mistura de linhas em C com linhas na
 
 As primeiras 6 linhas de `hoc1.y` contém uma linha em C, delimitada por `%{` e `%}`, e três linhas de código **yacc** com declarações `token` e `left`:
 
-```c
+```yacc
 %{
 #define	YYSTYPE double  /* tipo da pilha de yacc */
 %}
 %token	NUMBER
 %left	'+' '-'  /* associatividade esquerda, mesma precedência */
-%left	'*' '/'  /* associatividade direita, maior precedência */
+%left	'*' '/'  /* associatividade esquerda */
 ```
 
 Aqui temos:
@@ -123,7 +123,7 @@ Aqui temos:
 
 O próximo trecho delimitado por `%%` define duas regras sintáticas, `list` e `expr`:
 
-```c
+```yacc
 %%
 list:	  /* nada */
 	| list '\n'

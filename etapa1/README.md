@@ -6,7 +6,7 @@ Veja o [código desta etapa explicado](https://ramalho.github.io/hoc/etapa1).
 
 ### Passo 1: gerar o *parser*
 
-Use `yacc` (na verdade, **bison**), para gerar o código do programa em C.
+Use `yacc` (na verdade, **bison**), para gerar o código do programa em C a partir do arquivo `hoc1.y`;
 
 Resultado em um	Ubuntu 18.04.1 LTS:
 
@@ -63,3 +63,4 @@ $ ./hoc1 < testes.hoc
 
 Assim conferimos que 2 + 2 é 4, 100 °F é 37.777776 °C, e 38 °C é 100.4 °F. Faz sentido.
 
+Agora, se quiser entender o código de `hoc1.y`, leia a [explicação](https://ramalho.github.io/hoc/etapa1).

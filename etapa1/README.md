@@ -63,4 +63,4 @@ $ ./hoc1 < testes.hoc
 
 Assim conferimos que 2 + 2 é 4, 100 °F é 37.777776 °C, e 38 °C é 100.4 °F. Faz sentido.
 
-Agora, se quiser entender o código de `hoc1.y`, leia a [explicação](https://ramalho.github.io/hoc/etapa1).
+Agora, se quiser entender o código de `hoc1.y`, leia a [explicação](https://ramalho.github.io/hoc/etapa1#Explica%C3%A7%C3%A3o-do-programa).

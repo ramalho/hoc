@@ -249,3 +249,7 @@ yyerror(char* s)	/* erro de sintaxe */
 ```
 
 O tratamento de erros nessa versão `hoc1` é tosco. Isso será melhorado nas próximas etapas.
+
+----
+
+Voltar para o [índice de páginas](index.md).

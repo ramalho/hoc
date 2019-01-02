@@ -106,14 +106,14 @@ As primeiras 6 linhas de `hoc1.y` contém uma linha em C, delimitada por `%{` e 
 
 Aqui temos:
 
-* A definição de uma macro em C que define o tipo `YYSTYPE` como `double`. Esse tipo é usado pelo código gerado por **yacc** para representar os valores. Por enquanto, temos um simples tipo numérico.
+* A definição de uma macro em C que define o tipo `YYSTYPE` como `double`. Esse tipo é usado pelo código gerado por **yacc** para representar os valores. Por enquanto, temos um simples tipo numérico de ponto flutuante.
 * A declaração `token NUMBER`, que define um tipo de *token* — elemento sintático básico — que estamos chamando de `NUMBER`.
 * As declarações dos operadores `+` e `-`, com *associatividade esquerda*.
 * As declarações dos operadores `*` e `/`, também com *associatividade esquerda*, porém maior precedência, porque estão declarados depois de  `+` e `-`.
 
 #### Termos técnicos
 
-**Token** é o menor elemento sintático significativo. Por exemplo, a expressão `6.5 <= alfa` contém 3 *tokens*: `6.5`, `<=` e `alfa`. Os espaços servem apenas para separar os elementos, e os caracteres são juntados para formar números, símbolos e palavras completas.
+**Token** é o menor elemento sintático significativo. Por exemplo, a expressão `peso*2 <= 6.5` contém 5 *tokens*: `peso`, `*`, `2`, `<=` e `6.5`. Os caracteres são agrupados para formar números, símbolos e palavras completas, conforme as definições de *tokens* e regras sintáticas, como veremos a seguir.
 
 **Precedência** é a ordem de execução dos diferentes operadores. Por exemplo, queremos que as multiplicações e divisões sejam feitas antes das somas e subtrações. Ou seja, o resultado de `4 + 3 * 2` é o mesmo que `4 + 6` (=10) e não `7 * 2` (=14).
 

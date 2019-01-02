@@ -85,7 +85,9 @@ Assim conferimos que 2 + 2 é 4, 100 °F é 37.777776 °C, e 38 °C é 100.4 °F
 
 ## Explicação do programa
 
-O código fonte de `hoc1` é [`hoc1.y`](https://github.com/ramalho/hoc/blob/master/etapa1/hoc1.y). A seguir vamos explicar suas 66 linhas.
+O programa `hoc1` é um interpretador de expressões aritméticas interativo. 
+
+O código fonte está em [`hoc1.y`](https://github.com/ramalho/hoc/blob/master/etapa1/hoc1.y). A seguir vamos explicar suas 66 linhas.
 
 Neste exemplo simples de uso de **yacc**, temos um *parser* (analisador sintático) que efetua operações diretamente. Em um interpretador mais sofisticado, como veremos a partir da etapa 4, o parser produz uma representação interna do programa, que é passada para um *evaluator* (avaliador), que efetivamente executa as instruções.
 
@@ -95,25 +97,25 @@ Note que o código-fonte de `hoc1.y` é uma mistura de linhas em C com linhas na
 
 As primeiras 6 linhas de `hoc1.y` contém uma linha em C, delimitada por `%{` e `%}`, e três linhas de código **yacc** com declarações `token` e `left`:
 
-```yacc
+```c
 %{
 #define	YYSTYPE double  /* tipo da pilha de yacc */
 %}
 %token	NUMBER
-%left	'+' '-'  /* associatividade esquerda, mesma precedência */
-%left	'*' '/'  /* associatividade esquerda */
+%left	'+' '-'  /* associatividade esquerda */
+%left	'*' '/'  /* associatividade esquerda, maior precedência */
 ```
 
 Aqui temos:
 
 * A definição de uma macro em C que define o tipo `YYSTYPE` como `double`. Esse tipo é usado pelo código gerado por **yacc** para representar os valores. Por enquanto, temos um simples tipo numérico de ponto flutuante.
-* A declaração `token NUMBER`, que define um tipo de *token* — elemento sintático básico — que estamos chamando de `NUMBER`.
-* As declarações dos operadores `+` e `-`, com *associatividade esquerda*.
+* A declaração `token NUMBER`, que define um tipo de *token* — ver [definição](#termos-técnicos) — que estamos chamando de `NUMBER`.
+* As declarações dos operadores `+` e `-`, com *associatividade esquerda* — ver [definição](#termos-técnicos) a seguir.
 * As declarações dos operadores `*` e `/`, também com *associatividade esquerda*, porém maior precedência, porque estão declarados depois de  `+` e `-`.
 
 #### Termos técnicos
 
-**Token** é o menor elemento sintático significativo. Por exemplo, a expressão `peso*2 <= 6.5` contém 5 *tokens*: `peso`, `*`, `2`, `<=` e `6.5`. Os caracteres são agrupados para formar números, símbolos e palavras completas, conforme as definições de *tokens* e regras sintáticas, como veremos a seguir.
+**Token** é o menor elemento sintático significativo. Por exemplo, a expressão `peso*2 <= 6.5` contém 5 *tokens*: `peso`, `*`, `2`, `<=` e `6.5`. Uma parte do programa, o analisador léxico, vai agrupar os caracteres formando números, símbolos e palavras completas, conforme as definições de *tokens* e regras sintáticas, como veremos mais adiante.
 
 **Precedência** é a ordem de execução dos diferentes operadores. Por exemplo, queremos que as multiplicações e divisões sejam feitas antes das somas e subtrações. Ou seja, o resultado de `4 + 3 * 2` é o mesmo que `4 + 6` (=10) e não `7 * 2` (=14).
 
@@ -123,7 +125,7 @@ Aqui temos:
 
 O próximo trecho delimitado por `%%` define duas regras sintáticas, `list` e `expr`:
 
-```yacc
+```c
 %%
 list:	  /* nada */
 	| list '\n'
@@ -185,8 +187,8 @@ main(int argc, char* argv[])	/* hoc1 */
 
 A função `main` faz apenas duas coisas:
 
-1. Atribuir o valor do primeiro argumento da linha de comando à variável `progname`. Esse valor será `"hoc1"` neste exemplo.
-2. Invocar a função `yyparse`. Esta função não é definida em lugar algum de `hoc1.y`, mas será gerada pelo **yacc/bison** quando você executar o comando `yacc hoc1.y` no terminal.
+1. Atribui o valor do primeiro argumento da linha de comando à variável `progname`. Esse valor será `"hoc1"` neste exemplo.
+2. Invoca a função `yyparse`. Esta função não é definida em lugar algum de `hoc1.y`, mas será gerada pelo **yacc/bison** quando você executar o comando `yacc hoc1.y` no terminal.
 
 Se você inspecionar o arquivo gerado, `y.tab.c`, verá que a função `yyparse` para este exemplo simples tem cerca de 500 linhas de código (da linha 961 à 1466 no meu caso, mas pode ser diferente para você).
 

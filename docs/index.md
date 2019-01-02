@@ -9,7 +9,7 @@
 
 No capítulo 8 do livro [The Unix Programming Environment](https://en.wikipedia.org/wiki/The_Unix_Programming_Environment) (UPE), Brian W. Kernighan e Rob Pike mostram como construir uma uma pequena linguagem [Turing-completa](https://pt.wikipedia.org/wiki/Turing_completude) chamada `hoc` (higher-order calculator).
 
-Em [UPE](https://en.wikipedia.org/wiki/), `hoc` serve para apresentar as seguintes ferramentas do ambiente UNIX:
+Em [UPE](https://en.wikipedia.org/wiki/The_Unix_Programming_Environment), `hoc` serve para apresentar as seguintes ferramentas do ambiente UNIX:
 
 * [**yacc**](https://pt.wikipedia.org/wiki/Yacc): um gerador de analisador sintático, ou seja, um programa que gera o código-fonte de um *parser*, a partir da descrição formal de uma linguagem;
 * [**lex**](https://pt.wikipedia.org/wiki/Lex): um gerador de analisador léxico, muitas vezes usado em conjunto com **yacc**;

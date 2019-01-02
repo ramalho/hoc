@@ -252,4 +252,4 @@ O tratamento de erros nessa versão `hoc1` é tosco. Isso será melhorado nas pr
 
 ----
 
-Voltar para o [índice de páginas](index.md).
+Voltar para o [índice de páginas](index.md#índice-de-páginas).

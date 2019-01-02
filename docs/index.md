@@ -1,8 +1,9 @@
 # Construção da linguagem *hoc*
 
-* [Porque isso é interessante](#Porque-isso-é-interessante)
-* [Características de `hoc`](#Características-de-hoc)
-* [Organização deste repositório](#Organização-deste-repositório)
+* [Porque isso é interessante](#porque-isso-é-interessante)
+* [Características de `hoc`](#características-de-hoc)
+* [Organização deste repositório](#organização-deste-repositório)
+* [Índice de páginas](#índice-de-páginas)
 
 ## Porque isso é interessante
 
@@ -71,7 +72,7 @@ O diretório `/docs` contém esta página que você está lendo, entre outras.
 
 Os demais diretórios contém as 6 etapas da construção de `hoc`, como descrito em [The Unix Programming Environment](https://en.wikipedia.org/wiki/The_Unix_Programming_Environment).
 
-### Índice de páginas
+## Índice de páginas
 
 * [**Etapa 1**](etapa1.md): calculadora aritmética, expressões computadas imediatamente.
 * **Etapa 2**: variáveis de `a` a `z`.

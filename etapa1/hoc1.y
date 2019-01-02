@@ -5,18 +5,18 @@
 #define	YYSTYPE double  /* tipo da pilha de yacc */
 
 int yylex(void);
-void warning(char *, char *);
 void yyerror(char *);
+void aviso(char *, char *);
 %}
-%token	NUMBER
+%token	NUMERO
 %left	'+' '-'  /* associatividade esquerda */
 %left	'*' '/'  /* associatividade esquerda, maior precedência */
 %%
-list:	  /* nada */
-	| list '\n'
-	| list expr '\n'  { printf("\t%.8g\n", $2); }
+lista:	  /* nada */
+	| lista '\n'
+	| lista expr '\n'  { printf("\t%.8g\n", $2); }
 	;
-expr:	  NUMBER { $$ = $1; }
+expr:	  NUMERO { $$ = $1; }
 	| expr '+' expr	{ $$ = $1 + $3; }
 	| expr '-' expr	{ $$ = $1 - $3; }
 	| expr '*' expr	{ $$ = $1 * $3; }
@@ -24,15 +24,15 @@ expr:	  NUMBER { $$ = $1; }
 	| '(' expr ')'	{ $$ = $2; }
 	;
 %%
-	/* end of grammar */
+	/* fim da gramática */
 
-char	*progname;		/* para mensagens de erro */
-int	lineno = 1;
+char	*nome_prog;		/* para mensagens de erro */
+int	num_linha = 1;
 
 int
 main(int argc, char* argv[])	/* hoc1 */
 {
-	progname = argv[0];
+	nome_prog = argv[0];
 	yyparse();
 }
 
@@ -47,26 +47,24 @@ int yylex(void)			/* hoc1 */
 	if (c == '.' || isdigit(c)) {	/* número */
 		ungetc(c, stdin);
 		scanf("%lf", &yylval);
-		return NUMBER;
+		return NUMERO;
 	}
 	if (c == '\n')
-		lineno++;
+		num_linha++;
 	return c;
-}
-
-void
-warning(char *s, char *t)	/* exibir aviso */
-{
-	fprintf(stderr, "%s: %s", progname, s);
-	if (t)
-		fprintf(stderr, " %s", t);
-	fprintf(stderr, " near line %d\n", lineno);
 }
 
 void
 yyerror(char* s)	/* erro de sintaxe */
 {
-	warning(s, (char *)0);
-	/* execerror(s, (char *)0); */
+	aviso(s, (char *)0);
 }
 
+void
+aviso(char *s, char *t)	/* exibir aviso */
+{
+	fprintf(stderr, "%s: %s", nome_prog, s);
+	if (t)
+		fprintf(stderr, " %s", t);
+	fprintf(stderr, " perto da linha %d\n", num_linha);
+}

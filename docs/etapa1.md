@@ -49,16 +49,9 @@ Use o compilador `cc` para gerar o executável `hoc1`:
 $ cc --version
 cc (Ubuntu 7.3.0-27ubuntu1~18.04) 7.3.0
 $ cc y.tab.c -o hoc1
-y.tab.c: In function ‘yyparse’:
-y.tab.c:1118:16: warning: implicit declaration of function ‘yylex’ [-Wimplicit-function-declaration]
-       yychar = yylex ();
-                ^~~~~
-(...vários outros avisos...)
 $ ls
 hoc1  hoc1.y  README.md  y.tab.c
 ```
-
-> ✋ Eu gostaria de eliminar todos os avisos gerados nessa compilação, se possível sem suprimir os avisos no compilador, mas sim seguindo as regras dele. Porém tenho pouca experiência com C, e alguns avisos vêm do código gerado, `y.tab.c`, então não sei como resolver. Se você sabe resolver pelo menos parte desses avisos, faça um *pull request* ou entre em contato pelo *issue tracker* do repositório para a gente parear. Agradeço desde já!
 
 ### Passo 3: testar
 
@@ -87,31 +80,46 @@ Assim conferimos que 2 + 2 é 4, 100 °F é 37.777776 °C, e 38 °C é 100.4 °F
 
 O programa `hoc1` é um interpretador de expressões aritméticas interativo. 
 
-O código fonte está em [`hoc1.y`](https://github.com/ramalho/hoc/blob/master/etapa1/hoc1.y). A seguir vamos explicar suas 66 linhas.
+O código-fonte está em [`hoc1.y`](https://github.com/ramalho/hoc/blob/master/etapa1/hoc1.y). A seguir vamos explicar suas 66 linhas.
 
 Neste exemplo simples de uso de **yacc**, temos um *parser* (analisador sintático) que efetua operações imediatamente, assim que uma estrutura sintática casa com uma regra da gramática. Em um interpretador mais sofisticado, como veremos a partir da etapa 4, o parser produz uma representação interna do programa, que é passada para um *evaluator* (avaliador), que vai executar as instruções.
 
-Note que o código-fonte de `hoc1.y` é uma mistura de linhas em C com linhas na sintaxe especial de **yacc**.
+### Declarações iniciais
 
-### Definição da gramática
+O código-fonte de `hoc1.y` é uma mistura de linhas em C com linhas na sintaxe especial de **yacc**.
 
-As primeiras 6 linhas de `hoc1.y` contém uma linha em C, delimitada por `%{` e `%}`, e três linhas de código **yacc** com declarações `token` e `left`:
+A primeira seção do código, entre os marcadores `%{` e `%}`, é código em C (tirei os marcadores para que a colorização sintática funcione nesta página):
 
 ```c
-%{
+#include <stdio.h>
+#include <ctype.h>
+
 #define	YYSTYPE double  /* tipo da pilha de yacc */
-%}
-%token	NUMBER
-%left	'+' '-'  /* associatividade esquerda */
-%left	'*' '/'  /* associatividade esquerda, maior precedência */
+
+int yylex(void);
+void yyerror(char *);
+void aviso(char *, char *);
 ```
 
 Aqui temos:
 
-* A definição de uma macro em C que define o tipo `YYSTYPE` como `double`. Esse tipo é usado pelo código gerado por **yacc** para representar os valores. Por enquanto, temos um simples tipo numérico de ponto flutuante.
-* A declaração `token NUMBER`, que define um tipo de *token* — ver [definição](#termos-técnicos) — que estamos chamando de `NUMBER`.
-* As declarações dos operadores `+` e `-`, com *associatividade esquerda* — ver [definição](#termos-técnicos) a seguir.
-* As declarações dos operadores `*` e `/`, também com *associatividade esquerda*, porém maior precedência, porque estão declarados depois de  `+` e `-`.
+1. Inclusão de dois arquivos da biblioteca-padrão de C.
+2. Definição de uma macro em C que define o tipo `YYSTYPE` como `double`. Esse tipo é usado pelo código gerado por **yacc** para representar os valores. Por enquanto, temos um simples tipo numérico de ponto flutuante.
+3. Declaração da assinatura de três funções que serão definidas no final do arquito, mas que vão ser invocadas por código gerado pelo **yacc**. Sem essas declarações, o compilador gera avisos de "implicit declaration" (declaração implícita).
+
+### Definição da gramática
+
+Após o marcador `%}`, temos três linhas de código **yacc** com declarações `token` e `left`:
+
+```c
+%token	NUMERO
+%left	'+' '-'  /* associatividade esquerda */
+%left	'*' '/'  /* associatividade esquerda, maior precedência */
+```
+
+1. A declaração `token NUMERO`, que define um tipo de *token* — ver [definição](#termos-técnicos) — que estamos chamando de `NUMERO`.
+2. As declarações dos operadores `+` e `-`, com *associatividade esquerda* — ver [definição](#termos-técnicos) a seguir.
+3. As declarações dos operadores `*` e `/`, também com *associatividade esquerda*, porém maior precedência, porque estão declarados depois de  `+` e `-`.
 
 #### Termos técnicos
 
@@ -123,15 +131,15 @@ Aqui temos:
 
 #### Regras sintáticas
 
-O próximo trecho delimitado por `%%` define duas regras sintáticas, `list` e `expr`:
+O próximo trecho delimitado por `%%` define duas regras sintáticas, `lista` e `expr`:
 
 ```c
 %%
-list:	  /* nada */
-	| list '\n'
-	| list expr '\n'  { printf("\t%.8g\n", $2); }
+lista:	  /* nada */
+	| lista '\n'
+	| lista expr '\n'  { printf("\t%.8g\n", $2); }
 	;
-expr:	  NUMBER { $$ = $1; }
+expr:	  NUMERO { $$ = $1; }
 	| expr '+' expr	{ $$ = $1 + $3; }
 	| expr '-' expr	{ $$ = $1 - $3; }
 	| expr '*' expr	{ $$ = $1 * $3; }
@@ -143,15 +151,15 @@ expr:	  NUMBER { $$ = $1; }
 
 ```
 
-A primeira regra diz que uma `list` pode ter 3 formas:
+A primeira regra diz que uma `lista` pode ter 3 formas:
 
 1. nada (texto vazio);
-2. uma `list` seguida de `'\n'` (caractere de quebra de linha);
-3. uma `list` seguida de `expr` seguida de `'\n'`.
+2. uma `lista` seguida de `'\n'` (caractere de quebra de linha);
+3. uma `lista` seguida de `expr` seguida de `'\n'`.
 
 Essa é uma definição recursiva, que na prática diz que uma lista pode ser formada por 0 ou mais `expr` separadas por `'\n'`.
 
-A terceira forma de `list` contém um bloco de código `{…}` à direita, com uma chamada para `printf`. Quando o analisador sintático casa um trecho do código-fonte com essa forma, temos uma `expr` seguida de `'\n'`, e podemos exibir seu resultado, que estará em `$2`. 
+A terceira forma de `lista` contém um bloco de código `{…}` à direita, com uma chamada para `printf`. Quando o analisador sintático casa um trecho do código-fonte com essa forma, temos uma `expr` seguida de `'\n'`, e podemos exibir seu resultado, que estará em `$2`. 
 
 A regra sobre `expr` é mais interessante. São 6 formas, cada uma com um bloco `{…}` à direita para computar seu valor:
 
@@ -169,34 +177,32 @@ A regra sobre `expr` é mais interessante. São 6 formas, cada uma com um bloco 
 
 Depois do comentário `/* end of grammar */`, o que temos é só código em linguagem C.
 
-Aqui são incluídos dois arquivos da biblioteca padrão, definidas duas variáveis globais, e declarada a função `main`:
+Aqui são definidas duas variáveis globais, e declarada a função `main`:
 
 ```c
-#include <stdio.h>
-#include <ctype.h>
-char	*progname;		/* para mensagens de erro */
-int	lineno = 1;
+char	*nome_prog;		/* para mensagens de erro */
+int	num_linha = 1;
 
 int
 main(int argc, char* argv[])	/* hoc1 */
 {
-	progname = argv[0];
+	nome_prog = argv[0];
 	yyparse();
 }
 ```
 
 A função `main` faz apenas duas coisas:
 
-1. Atribui o valor do primeiro argumento da linha de comando à variável `progname`. Esse valor será `"hoc1"` neste exemplo.
+1. Atribui o valor do primeiro argumento da linha de comando à variável `nome_prog`. Esse valor será `"hoc1"` neste exemplo.
 2. Invoca a função `yyparse`. Esta função não é definida em lugar algum de `hoc1.y`, mas será gerada pelo **yacc/bison** quando você executar o comando `yacc hoc1.y` no terminal.
 
-Se você inspecionar o arquivo gerado, `y.tab.c`, verá que a função `yyparse` para este exemplo simples tem cerca de 500 linhas de código (da linha 961 à 1466 no meu caso, mas pode ser diferente para você).
+Se você inspecionar o arquivo gerado, `y.tab.c`, verá que a função `yyparse` para este exemplo simples tem cerca de 500 linhas de código (da linha 1061 à 1562 no meu caso, mas pode ser diferente para você).
 
 ### Analisador léxico
 
 O código de `yyparse` espera que exista uma função chamada `yylex`, que faz a análise léxica e devolve o próximo *token* a cada chamada. Na verdade, `yylex` devolve duas informações: seu resultado é um código numérico que identifica a categoria do *token*, e quando o *token* tem um valor (como um valor numérico neste exemplo), o valor é colocado na variável global `yylval`, declarada em `y.tab.c` como sendo do tipo `YYSTYPE`, ou `double` neste exemplo.
 
-Por exemplo, se o *token* for `"3.1416"`, `yylex` devolve o código `NUMBER`, e coloca o valor 3.1416 em `yylval`. Outro exemplo: se o *token* é `"*"`, o número `'*'` é devolvido (esse é o número 42, o código ASCII do sinal *). Neste caso, nenhum valor é colocado em `yylval`.
+Por exemplo, se o *token* for `"3.1416"`, `yylex` devolve o código `NUMERO`, e coloca o valor 3.1416 em `yylval`. Outro exemplo: se o *token* é `"*"`, o número `'*'` é devolvido (esse é o número 42, o código ASCII do sinal *). Neste caso, nenhum valor é colocado em `yylval`.
 
 Após a declaração `int c`, o código de `yylex` pode ser divido em 5 partes:
 
@@ -212,17 +218,17 @@ yylex(void)			/* hoc1 */
 	if (c == '.' || isdigit(c)) {	/* número */
 		ungetc(c, stdin);
 		scanf("%lf", &yylval);
-		return NUMBER;
+		return NUMERO;
 	}
 	if (c == '\n')
-		lineno++;
+		num_linha++;
 	return c;
 }
 ```
 
 1. Laço `while` que consome caracteres brancos (espaços e tabs), deixando na variável `c` o primeiro caractere não-branco.
 2. Se `c` é EOF, devolva o código 0, sinalizando para `yyparse` que não há mais nada a ser lido.
-3. Se `c` é um ponto ou um dígito, coloque ele de volta no *buffer* de entrada (`ungetc`), use a função `scanf` para ler um número de ponto flutuante para dentro da variável global `yylval`, e devolva o código `NUMBER`.
+3. Se `c` é um ponto ou um dígito, coloque ele de volta no *buffer* de entrada (`ungetc`), use a função `scanf` para ler um número de ponto flutuante para dentro da variável global `yylval`, e devolva o código `NUMERO`.
 4. Se `c` é uma quebra de linha, incremente o contador de linhas.
 5. Do contrário, devolva o código ASCII do caractere lido.
 
@@ -230,23 +236,22 @@ Na etapa 3, Kernighan e Pike mostram rapidamente o uso de **lex** para gerar o a
 
 ### Tratamento de erros
 
-O código gerado por **yacc/bison** também precisa que você forneça uma função `yyerror`, que será chamada para reportar ou tratar situações de erro. Neste exemplo, `yyerror` apenas invoca uma função `warning`, definida no mesmo arquivo `hoc1.y`.
+O código gerado por **yacc/bison** também precisa que você forneça uma função `yyerror`, que será chamada para reportar ou tratar situações de erro. Neste exemplo, `yyerror` apenas invoca uma função `aviso`, definida em seguida.
 
 ```c
 void
-warning(char *s, char *t)	/* exibir aviso */
+yyerror(char* s)	/* erro de sintaxe */
 {
-	fprintf(stderr, "%s: %s", progname, s);
-	if (t)
-		fprintf(stderr, " %s", t);
-	fprintf(stderr, " near line %d\n", lineno);
+	aviso(s, (char *)0);
 }
 
 void
-yyerror(char* s)	/* erro de sintaxe */
+aviso(char *s, char *t)	/* exibir aviso */
 {
-	warning(s, (char *)0);
-	/* execerror(s, (char *)0); */
+	fprintf(stderr, "%s: %s", nome_prog, s);
+	if (t)
+		fprintf(stderr, " %s", t);
+	fprintf(stderr, " perto da linha %d\n", num_linha);
 }
 ```
 

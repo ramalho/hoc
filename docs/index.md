@@ -60,7 +60,7 @@ fib(1000)
 
 No código acima, a variável `$1` é o primeiro argumento passado para   `fib`. A palavra reservada `proc` serve para declarar um procedimento: uma sub-rotina que não devolve um valor, assim como um médodo do tipo `void` em Java. Para declarar uma função que devolve um número em `hoc`, usa-se  `func`.
 
-A distinção entre procedimentos e funções é natural para quem já programou em Pascal ou Delphi. Muitas linguagens modernas não separam os dois conceitos claramente. Por exemplo, em Python não há procedimentos, há apenas funções que não devolvem nenhum valor explicitamente mas, implicitamente, devolvem o valor `None`, que a gente ignora.
+> 🗒 A distinção entre procedimentos e funções é natural para quem já programou em Pascal ou Delphi. Muitas linguagens modernas não separam os dois conceitos claramente. Por exemplo, em Python não há procedimentos, há apenas funções que não devolvem nenhum valor explicitamente mas, implicitamente, devolvem o valor `None`, que a gente ignora.
 
 ## Organização deste repositório
 

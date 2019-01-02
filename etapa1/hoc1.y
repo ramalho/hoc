@@ -1,5 +1,12 @@
 %{
+#include <stdio.h>
+#include <ctype.h>
+
 #define	YYSTYPE double  /* tipo da pilha de yacc */
+
+int yylex(void);
+void warning(char *, char *);
+void yyerror(char *);
 %}
 %token	NUMBER
 %left	'+' '-'  /* associatividade esquerda */
@@ -19,8 +26,6 @@ expr:	  NUMBER { $$ = $1; }
 %%
 	/* end of grammar */
 
-#include <stdio.h>
-#include <ctype.h>
 char	*progname;		/* para mensagens de erro */
 int	lineno = 1;
 
@@ -31,7 +36,7 @@ main(int argc, char* argv[])	/* hoc1 */
 	yyparse();
 }
 
-yylex(void)			/* hoc1 */
+int yylex(void)			/* hoc1 */
 {
 	int c;
 

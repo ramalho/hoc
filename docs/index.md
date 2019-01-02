@@ -7,7 +7,7 @@
 
 ## Porque isso é interessante
 
-No capítulo 8 do livro [The Unix Programming Environment](https://en.wikipedia.org/wiki/) (UPE), Brian W. Kernighan e Rob Pike mostram como construir uma uma pequena linguagem [Turing-completa](https://pt.wikipedia.org/wiki/Turing_completude) chamada `hoc` (higher-order calculator).
+No capítulo 8 do livro [The Unix Programming Environment](https://en.wikipedia.org/wiki/The_Unix_Programming_Environment) (UPE), Brian W. Kernighan e Rob Pike mostram como construir uma uma pequena linguagem [Turing-completa](https://pt.wikipedia.org/wiki/Turing_completude) chamada `hoc` (higher-order calculator).
 
 Em [UPE](https://en.wikipedia.org/wiki/), `hoc` serve para apresentar as seguintes ferramentas do ambiente UNIX:
 
@@ -21,7 +21,7 @@ Estudar a implementação de `hoc` em C é uma boa maneira de aprender como func
 
 ### Minha motivação
 
-Decidi estudar este exemplo para aprender o básico de **lex** e **yacc**, antes de estudar o pacote [**SLY**](https://github.com/dabeaz/sly) de David Beazley, que implementa funcionalidade semelhante em Python, usando metaprogramação em vez de geração de código. Meu plano é usar **SLY** na [Oficina de Linguagens de Programação](https://garoa.net.br/wiki/Turing_Clube/Oficina_de_Linguagens_de_Programa%C3%A7%C3%A3o) do Garoa Hacker Clube. Como achei o exemplo `hoc` muito interessante, e não encontrei o livro [UPE](https://en.wikipedia.org/wiki/) em português, resolvi contribuir para a nossa cultura de computação apresentando esse exemplo em nosso idioma.
+Decidi estudar este exemplo para aprender o básico de **lex** e **yacc**, antes de estudar o pacote [**SLY**](https://github.com/dabeaz/sly) de David Beazley, que implementa funcionalidade semelhante em Python, usando metaprogramação em vez de geração de código. Meu plano é usar **SLY** na [Oficina de Linguagens de Programação](https://garoa.net.br/wiki/Turing_Clube/Oficina_de_Linguagens_de_Programa%C3%A7%C3%A3o) do Garoa Hacker Clube. Como achei o exemplo `hoc` muito interessante, e não encontrei o livro [UPE](https://en.wikipedia.org/wiki/The_Unix_Programming_Environment) em português, resolvi contribuir para a nossa cultura de computação apresentando esse exemplo em nosso idioma.
 
 ## Características de *hoc*
 

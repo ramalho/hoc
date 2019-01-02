@@ -63,13 +63,13 @@ A distinção entre procedimentos e funções é natural para quem já programou
 
 ## Organização deste repositório
 
-O diretório `/complete` é um fork do repositório [richardfearn/hoc](https://github.com/richardfearn/hoc) no GitHub. Richard Fearn obteve o código original em um site que não está disponível em 1/jan/2019 (http://netlib.bell-labs.com/cm/cs/upe/), e o modificou para que fosse possível compilar e executar em um sistema GNU/Linux.
+O diretório `/complete` é um fork do repositório [richardfearn/hoc](https://github.com/richardfearn/hoc) no GitHub. Richard Fearn modificou código original de 1984 para compilar e executar em um sistema GNU/Linux em 2012. Em 1/jan/2019, não está acessível o site onde o código original foi publicado ([http://netlib.bell-labs.com/cm/cs/upe/](http://netlib.bell-labs.com/cm/cs/upe/)).
 
 > 🗒 Você pode compilar o programa rodando `make` no diretório `/complete`, desde que tenha instalado as ferramentas de desenvolvimento do seu sistema, incluindo **bison** e **flex**.
 
 O diretório `/docs` contém esta página que você está lendo, entre outras.
 
-Os demais diretórios contém as 6 etapas da construção de `hoc`, como descrito em [The Unix Programming Environment](https://en.wikipedia.org/wiki/).
+Os demais diretórios contém as 6 etapas da construção de `hoc`, como descrito em [The Unix Programming Environment](https://en.wikipedia.org/wiki/The_Unix_Programming_Environment).
 
 ### Índice de páginas
 

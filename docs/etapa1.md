@@ -2,9 +2,9 @@
 
 Esta página descreve o programa do diretório [etapa1/](https://github.com/ramalho/hoc/tree/master/etapa1).
 
-* [Exemplo de uso](#Exemplo-de-uso)
-* [Como compilar](#Como-compilar)
-* [Explicação do programa](#Explicação-do-programa)
+* [Exemplo de uso](#exemplo-de-uso)
+* [Como compilar](#como-compilar)
+* [Explicação do programa](#explicação-do-programa)
 
 ## Exemplo de uso
 

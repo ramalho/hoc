@@ -10,7 +10,7 @@ Esta página descreve o programa do diretório [etapa1/](https://github.com/rama
 
 As linhas indentadas são a saída do programa:
 
-```
+```bash
 $ ./hoc1
 1 + 2
 	3
@@ -30,7 +30,7 @@ Use `yacc` (na verdade, **bison**), para gerar o código do programa em C.
 
 Resultado em um	Ubuntu 18.04.1 LTS:
 
-```
+```bash
 $ yacc --version
 bison (GNU Bison) 3.0.4
 (etc...)
@@ -45,7 +45,7 @@ Isso gera o arquivo `y.tab.c`, com todo o código da calculadora.
 
 Use o compilador `cc` para gerar o executável `hoc1`:
 
-```
+```bash
 $ cc --version
 cc (Ubuntu 7.3.0-27ubuntu1~18.04) 7.3.0
 $ cc y.tab.c -o hoc1
@@ -74,7 +74,7 @@ Uma expressão bem simples, uma expressão com parêntesis para converter 100 °
 
 Forneça `testes.hoc` como arquivo de entrada para `hoc1` assim:
 
-```
+```bash
 $ ./hoc1 < testes.hoc
 	4
 	37.777778
@@ -95,7 +95,7 @@ Note que o código-fonte de `hoc1.y` é uma mistura de linhas em C com linhas na
 
 As primeiras 6 linhas de `hoc1.y` contém uma linha em C, delimitada por `%{` e `%}`, e três linhas de código **yacc** com declarações `token` e `left`:
 
-```
+```c
 %{
 #define	YYSTYPE double  /* tipo da pilha de yacc */
 %}
@@ -123,7 +123,7 @@ Aqui temos:
 
 O próximo trecho delimitado por `%%` define duas regras sintáticas, `list` e `expr`:
 
-```
+```c
 %%
 list:	  /* nada */
 	| list '\n'
@@ -169,7 +169,7 @@ Depois do comentário `/* end of grammar */`, o que temos é só código em ling
 
 Aqui são incluídos dois arquivos da biblioteca padrão, definidas duas variáveis globais, e declarada a função `main`:
 
-```
+```c
 #include <stdio.h>
 #include <ctype.h>
 char	*progname;		/* para mensagens de erro */
@@ -198,7 +198,7 @@ Por exemplo, se o *token* for `"3.1416"`, `yylex` devolve o código `NUMBER`, e 
 
 Após a declaração `int c`, o código de `yylex` pode ser divido em 5 partes:
 
-```
+```c
 yylex(void)			/* hoc1 */
 {
 	int c;
@@ -230,7 +230,7 @@ Na etapa 3, Kernighan e Pike mostram rapidamente o uso de **lex** para gerar o a
 
 O código gerado por **yacc/bison** também precisa que você forneça uma função `yyerror`, que será chamada para reportar ou tratar situações de erro. Neste exemplo, `yyerror` apenas invoca uma função `warning`, definida no mesmo arquivo `hoc1.y`.
 
-```
+```c
 void
 warning(char *s, char *t)	/* exibir aviso */
 {

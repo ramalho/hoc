@@ -1,0 +1,100 @@
+# *hoc1b*: número negativos e *make*
+
+Esta página descreve o programa do diretório [etapa1b/](https://github.com/ramalho/hoc/tree/master/etapa1b).
+
+* [Explicação do programa](#explicação-do-programa)
+* [Construir e testar](#construir-e-testar)
+* [Introdução a *make*](#introdução-a-make)
+
+## Explicação do programa
+
+Uma das vantagens de usar o **yacc/bison** é que a definição de alto-nível da gramática facilitar mudar ou acrescentar novos recursos à linguagem que estamos desenvolvendo.
+
+Para incorporar o sinal de número negativo, será preciso apenas acrescentar duas linhas. O código-fonte completo está em [`hoc1b.y`](https://github.com/ramalho/hoc/blob/master/etapa1b/hoc1b.y) ([link](https://github.com/ramalho/hoc/blob/master/etapa1b/hoc1b.y)).
+
+### Mudanças na gramática
+
+A primeira mudança é acresecentar declaração do *token* `NEGATIVO` que vai representar operador também conhecido como *unary minus* (menos unário).
+
+```c
+%token	NUMERO
+%left	'+' '-'  /* associatividade esquerda */
+%left	'*' '/'  /* associatividade esquerda, maior precedência */
+%left	NEGATIVO /* hoc1b */
+```
+
+Acrescentar `NEGATIVO` por último dá a precedência mais alta para esse sinal.
+
+A próxima mudança é incluir a uma nova forma nas regras sintáticas de `expr`:
+
+```c
+expr:	  NUMERO { $$ = $1; }
+	| '-' expr %prec NEGATIVO { $$ = -$2; }	/* hoc1b */ 
+	| expr '+' expr	{ $$ = $1 + $3; }
+	| expr '-' expr	{ $$ = $1 - $3; }
+	/* etc... */
+```
+
+A 2ª linha estabelece que a forma `'-' expr` terá precedência alta (`%prec NEGATIVO`), e seu valor será o negativo da expressão (`$$ = -$2`). A forma da 4ª linha (`expr '-' expr`) continuará sendo usada quando o sinal `'-'` aparecer entre duas expressões.
+
+## Construção do programa
+
+Use `yacc` para gerar o código do programa em C, compile, e teste:
+
+```bash
+$ yacc hoc1b.y
+$ cc y.tab.c -o hoc1b
+$ ./hoc1b < testes.hoc
+	4
+	-7
+	37.777778
+	100.4
+```
+
+Para testar o sinal de negativo, incluí a linha `-3 - 4` em `testes.hoc`. Por isso, o resultado -7.
+
+## Introdução a *make*
+
+Toda vez que fazemos uma alteração em um arquivo `.y`, temos que rodar `yacc` e depois `cc`. É inconveniente, mas o pior é às vezes esquecer uma dessas etapas, como já aconteceu comigo. Ao preparar a etapa 1, houve um momento em que eu editava `hoc1.y` e repetia o comando `yacc`, mas o comportamento do programa continuava igual. Perdi alguns minutos até perceber que eu estava esquecendo de compilar o `y.tab.c` gerado, e estava testando uma versão velha do executável! E se você esquecer de rodar `yacc` antes do `cc`, terá o mesmo problema: não verá mudança alguma no programa compilado, pois estará apenas compilando uma versão velha do `y.tab.c`.
+
+É fácil criar um *script* no shell para rodar esses dois comandos, mas é bem melhor usar a ferramenta `make`, pois ela foi projetada para construir programas, sabe lidar com arquivos `.y`, e evita realizar passos desnecessários — por exemplo, não executar o compilador se o arquivo-fonte `hoc.y` não foi alterado.
+
+Para começar a usar `make`, você precisa criar um arquivo chamado `Makefile`. Para essa etapa, o `Makefile` é bem simples:
+
+```make
+hoc1b:	hoc1b.o
+	cc hoc1b.o -o hoc1b
+```
+
+Nesse `Makefile`, está definido que `hoc1b` depende de `hoc1b.o`, que deve ser compilado com `cc`. Não é preciso mencionar o arquivo `hoc1b.y`, porque `make` sabe que um arquivo `.y` precisa ser processado por `yacc`.
+
+Uma vez criado o `Makefile`, executar o comando `make` no diretório `etapa1b/` gera esta saída:
+
+```bash
+$ make
+yacc  hoc1b.y 
+mv -f y.tab.c hoc1b.c
+cc    -c -o hoc1b.o hoc1b.c
+cc hoc1b.o -o hoc1b
+rm hoc1b.c
+```
+
+Observe que `yacc` é executado, o arquivo gerado `y.tab.c` é renomeado para `hoc1b.c`, e o compilador é usado para gerar o arquivo-objeto `hoc1b.o`. No final, `hob1b.c` é apagado. O resultado é a criação do arquivo-objeto `hoc1b.o` e do executável `hoc1b`:
+
+```bash
+$ ls
+hoc1b  hoc1b.o  hoc1b.y  Makefile  README.md  testes.hoc
+```
+
+Depois disso, se você executar `make` novamente, ele não faz nada além de avisar que `hoc1b` já é a versão mais atual:
+
+```bash
+$ make
+make: 'hoc1b' is up to date.
+```
+
+> 🗒 No livro UPE, o nome do `makefile` é escrito assim, sem inicial maiúscula. Atualmente a convenção é usar `Makefile`, conforme o [manual do GNU make](https://www.gnu.org/software/make/manual/html_node/Makefile-Names.html), apenas para dar maior destaque a este arquivo que será o mais útil para a pessoa interessada em compilar um programa.
+
+----
+
+Voltar para o [índice de páginas](index.md#índice-de-páginas).

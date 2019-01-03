@@ -80,13 +80,48 @@ Assim conferimos que 2 + 2 é 4, 100 °F é 37.777776 °C, e 38 °C é 100.4 °F
 
 O programa `hoc1` é um interpretador de expressões aritméticas interativo. 
 
-O código-fonte está em [`hoc1.y`](https://github.com/ramalho/hoc/blob/master/etapa1/hoc1.y). A seguir vamos explicar suas 66 linhas.
+O código-fonte está em [`hoc1.y`](https://github.com/ramalho/hoc/blob/master/etapa1/hoc1.y) ([link](https://github.com/ramalho/hoc/blob/master/etapa1/hoc1.y)).
 
-Neste exemplo simples de uso de **yacc**, temos um *parser* (analisador sintático) que efetua operações imediatamente, assim que uma estrutura sintática casa com uma regra da gramática. Em um interpretador mais sofisticado, como veremos a partir da etapa 4, o parser produz uma representação interna do programa, que é passada para um *evaluator* (avaliador), que vai executar as instruções.
+### Visão geral do código
+
+Neste exemplo simples de uso de **yacc**, as três funções mais importantes são:
+
+#### `int main(int argc, char* argv[])`
+
+É onde tudo começa. A `main` é muito simples neste exemplo. Sua missão principal é invocar `yyparse`.
+
+#### `int yyparse(void)`
+
+Essa função é gerada pela ferramenta **yacc** — seu código aparece no arquivo `y.tab.c`. Ela implementa a lógica do *parser*, usando a regras especificadas em [Definição da gramática](#definição-da-gramática), como veremos. Para ler o código-fonte, `yyparse` invoca repetidamente a função `yylex`, que precisamos implementar. Neste exemplo, `yyparse` realiza os cálculos imediatamente, assim que uma estrutura sintática casa com uma regra da gramática. Em um interpretador mais sofisticado, como veremos a partir da etapa 4, `yyparse` produz uma representação interna do programa, que é passada para um *evaluator* (avaliador), que vai executar as instruções.
+
+
+#### `int yylex(void)`
+
+Toda vez que invocada por `yyparse`, `yylex` avança na leitura do código-fonte, e devolve um código tipo `int` que identifica a categoria do elemento sintático (ou *token*, ver [definição](o-que-é-um-token)) que acabou de ser lido. Exemplos de categorias: número, identificador, operador aritmético como `'+'`,  delimitador como `'('` ou `'{'`, etc. Dependendo da categoria do *token* que foi lido, `yyparse` coloca informações adicionais na variável global `yylval`, que `yyparse` também pode acessar. Para símbolos e delimitadores com apenas um caractere, o código devolvido por `yylex` normalmente é o código ASCII do caractere. Códigos acima de 127 são usados para outras categorias de *tokens* definidas na gramática. Chegando ao fim do código-fonte, `yylex` devolve o código `0`.
+
+#### O que é um *token*
+
+**Token** é o menor elemento sintático significativo. Por exemplo, a expressão...
+
+```
+peso*2 <= 6.5
+```
+
+...contém 5 *tokens*:
+
+* `peso`
+* `*`
+* `2`
+* `<=`
+* `6.5`
+
+A função `yylex` lê o código-fonte caractere por caractere, descartando os espaços e agrupando um ou mais caracteres para formar um número, símbolo ou identificador. A cada chamada, `yylex` produz as informações de um *token* completo — sua categoria e seu valor. Nesse exemplo, quando `yylex` lê o texto `6.5`, ela devolve o código da categoria `NUMERO` e coloca o valor 6.5 em `yylval`.
+
+> 🗒 Na prática, é como se `yylex` devolvesse dois resultados: a categoria e o valor do *token*. Mas funções em C não podem devolver dois resultados — como em Python ou Go — então a variável global `yylval` guarda a segunda parte da informação sobre o *token* que acabou de ser lido para `yyparse` poder acessar. 
 
 ### Declarações iniciais
 
-O código-fonte de `hoc1.y` é uma mistura de linhas em C com linhas na sintaxe especial de **yacc**.
+A seguir vamos estudar as 70 linhas de [`hoc1.y`](https://github.com/ramalho/hoc/blob/master/etapa1/hoc1.y) ([código-fonte](https://github.com/ramalho/hoc/blob/master/etapa1/hoc1.y)). Esse arquivo  é uma mistura de linhas em C com linhas na sintaxe especial de **yacc**.
 
 A primeira seção do código, entre os marcadores `%{` e `%}`, é código em C (tirei os marcadores para que a colorização sintática funcione nesta página):
 
@@ -105,7 +140,7 @@ Aqui temos:
 
 1. Inclusão de dois arquivos da biblioteca-padrão de C.
 2. Definição de uma macro em C que define o tipo `YYSTYPE` como `double`. Esse tipo é usado pelo código gerado por **yacc** para representar os valores. Por enquanto, temos um simples tipo numérico de ponto flutuante.
-3. Declaração da assinatura de três funções que serão definidas no final do arquito, mas que vão ser invocadas por código gerado pelo **yacc**. Sem essas declarações, o compilador gera avisos de "implicit declaration" (declaração implícita).
+3. Declaração da assinatura de três funções que serão definidas no final do arquivo, e serão invocadas por código gerado pelo **yacc**. Sem essas declarações, o compilador gera avisos de "implicit declaration" (declaração implícita).
 
 ### Definição da gramática
 
@@ -117,13 +152,11 @@ Após o marcador `%}`, temos três linhas de código **yacc** com declarações 
 %left	'*' '/'  /* associatividade esquerda, maior precedência */
 ```
 
-1. A declaração `token NUMERO`, que define um tipo de *token* — ver [definição](#termos-técnicos) — que estamos chamando de `NUMERO`.
+1. A declaração `token NUMERO` define uma categoria de *token* que estamos chamando de `NUMERO`. Em `hoc1`, um `NUMERO` é um valor de ponto flutuante, como 1.618.
 2. As declarações dos operadores `+` e `-`, com *associatividade esquerda* — ver [definição](#termos-técnicos) a seguir.
 3. As declarações dos operadores `*` e `/`, também com *associatividade esquerda*, porém maior precedência, porque estão declarados depois de  `+` e `-`.
 
 #### Termos técnicos
-
-**Token** é o menor elemento sintático significativo. Por exemplo, a expressão `peso*2 <= 6.5` contém 5 *tokens*: `peso`, `*`, `2`, `<=` e `6.5`. Uma parte do programa, o analisador léxico, vai agrupar os caracteres formando números, símbolos e palavras completas, conforme as definições de *tokens* e regras sintáticas, como veremos mais adiante.
 
 **Precedência** é a ordem de execução dos diferentes operadores. Por exemplo, queremos que as multiplicações e divisões sejam feitas antes das somas e subtrações. Ou seja, o resultado de `4 + 3 * 2` é o mesmo que `4 + 6` (=10) e não `7 * 2` (=14).
 
@@ -147,7 +180,7 @@ expr:	  NUMERO { $$ = $1; }
 	| '(' expr ')'	{ $$ = $2; }
 	;
 %%
-	/* end of grammar */
+	/* fim da gramática */
 
 ```
 
@@ -157,13 +190,13 @@ A primeira regra diz que uma `lista` pode ter 3 formas:
 2. uma `lista` seguida de `'\n'` (caractere de quebra de linha);
 3. uma `lista` seguida de `expr` seguida de `'\n'`.
 
-Essa é uma definição recursiva, que na prática diz que uma lista pode ser formada por 0 ou mais `expr` separadas por `'\n'`.
+Na prática, essa definição recursiva diz que uma `lista` pode ser formada por 0 ou mais `expr` separadas por `'\n'`.
 
-A terceira forma de `lista` contém um bloco de código `{…}` à direita, com uma chamada para `printf`. Quando o analisador sintático casa um trecho do código-fonte com essa forma, temos uma `expr` seguida de `'\n'`, e podemos exibir seu resultado, que estará em `$2`. 
+A terceira forma de `lista` contém um bloco de código `{…}` à direita. Quando o *parser* casa um trecho do código-fonte com essa forma, temos uma `expr` seguida de `'\n'`, então usamos `printf` para exibir o valor da expressão, que estará em `$2`. 
 
 A regra sobre `expr` é mais interessante. São 6 formas, cada uma com um bloco `{…}` à direita para computar seu valor:
 
-1. um número simples, ex. 1.23 — seu valor é o valor da própria expressão, `$1`;
+1. um número, como 1.23 — seu valor é o valor da própria expressão, `$1`;
 2. duas expressões com o caractere `'+'` no meio — seu valor é a soma das duas expressões;
 3. duas expressões com o caractere `'-'` no meio — seu valor é a subtração da primeira pela segunda expressão;
 4. duas expressões com o caractere `'*'` no meio — seu valor é a multiplicação das duas expressões;
@@ -175,16 +208,15 @@ A regra sobre `expr` é mais interessante. São 6 formas, cada uma com um bloco 
 
 ### Função principal
 
-Depois do comentário `/* end of grammar */`, o que temos é só código em linguagem C.
+Depois do comentário `/* fim da gramática */`, o que temos é só código em linguagem C.
 
 Aqui são definidas duas variáveis globais, e declarada a função `main`:
 
 ```c
-char	*nome_prog;		/* para mensagens de erro */
+char	*nome_prog;		 /* para mensagens de erro */
 int	num_linha = 1;
 
-int
-main(int argc, char* argv[])	/* hoc1 */
+int main(int argc, char* argv[]) /* hoc1 */
 {
 	nome_prog = argv[0];
 	yyparse();
@@ -194,20 +226,20 @@ main(int argc, char* argv[])	/* hoc1 */
 A função `main` faz apenas duas coisas:
 
 1. Atribui o valor do primeiro argumento da linha de comando à variável `nome_prog`. Esse valor será `"hoc1"` neste exemplo.
-2. Invoca a função `yyparse`. Esta função não é definida em lugar algum de `hoc1.y`, mas será gerada pelo **yacc/bison** quando você executar o comando `yacc hoc1.y` no terminal.
+2. Invoca a função `yyparse` que será gerada pelo **yacc/bison** quando você executar o comando `yacc hoc1.y` no terminal.
 
 Se você inspecionar o arquivo gerado, `y.tab.c`, verá que a função `yyparse` para este exemplo simples tem cerca de 500 linhas de código (da linha 1061 à 1562 no meu caso, mas pode ser diferente para você).
 
 ### Analisador léxico
 
-O código de `yyparse` espera que exista uma função chamada `yylex`, que faz a análise léxica e devolve o próximo *token* a cada chamada. Na verdade, `yylex` devolve duas informações: seu resultado é um código numérico que identifica a categoria do *token*, e quando o *token* tem um valor (como um valor numérico neste exemplo), o valor é colocado na variável global `yylval`, declarada em `y.tab.c` como sendo do tipo `YYSTYPE`, ou `double` neste exemplo.
+O código de `yyparse` espera que exista uma função chamada `yylex`, que faz a análise léxica e devolve o próximo *token* a cada chamada. Como já vimos, `yylex` devolve duas informações: seu resultado é um código numérico que identifica a categoria do *token*, e quando o *token* tem um valor — como um `NUMERO` neste exemplo — o valor é colocado na variável global `yylval`, declarada em `y.tab.c` como sendo do tipo `YYSTYPE` (como vimos em [Declarações iniciais](#declarações-iniciais)).
 
 Por exemplo, se o *token* for `"3.1416"`, `yylex` devolve o código `NUMERO`, e coloca o valor 3.1416 em `yylval`. Outro exemplo: se o *token* é `"*"`, o número `'*'` é devolvido (esse é o número 42, o código ASCII do sinal *). Neste caso, nenhum valor é colocado em `yylval`.
 
 Após a declaração `int c`, o código de `yylex` pode ser divido em 5 partes:
 
 ```c
-yylex(void)			/* hoc1 */
+int yylex(void)			/* hoc1 */
 {
 	int c;
 
@@ -236,7 +268,7 @@ Na etapa 3, Kernighan e Pike mostram rapidamente o uso de **lex** para gerar o a
 
 ### Tratamento de erros
 
-O código gerado por **yacc/bison** também precisa que você forneça uma função `yyerror`, que será chamada para reportar ou tratar situações de erro. Neste exemplo, `yyerror` apenas invoca uma função `aviso`, definida em seguida.
+O código de `yyparse` gerado por **yacc/bison** também precisa que você forneça uma função `yyerror`, que será chamada para reportar ou tratar situações de erro. Neste exemplo, `yyerror` apenas invoca uma função `aviso`, definida em seguida.
 
 ```c
 void

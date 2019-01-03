@@ -26,17 +26,16 @@ expr:	  NUMERO { $$ = $1; }
 %%
 	/* fim da gramática */
 
-char	*nome_prog;		/* para mensagens de erro */
+char	*nome_prog;		 /* para mensagens de erro */
 int	num_linha = 1;
 
-int
-main(int argc, char* argv[])	/* hoc1 */
+int main(int argc, char* argv[]) /* hoc1 */
 {
 	nome_prog = argv[0];
 	yyparse();
 }
 
-int yylex(void)			/* hoc1 */
+int yylex(void)			 /* hoc1 */
 {
 	int c;
 
@@ -54,14 +53,12 @@ int yylex(void)			/* hoc1 */
 	return c;
 }
 
-void
-yyerror(char* s)	/* erro de sintaxe */
+void yyerror(char* s)	/* erro de sintaxe */
 {
 	aviso(s, (char *)0);
 }
 
-void
-aviso(char *s, char *t)	/* exibir aviso */
+void aviso(char *s, char *t)	/* exibir aviso */
 {
 	fprintf(stderr, "%s: %s", nome_prog, s);
 	if (t)

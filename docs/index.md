@@ -75,6 +75,7 @@ Os demais diretórios contém as 6 etapas da construção de `hoc`, como descrit
 ## Índice de páginas
 
 * [**Etapa 1**](etapa1.md): calculadora aritmética, expressões computadas imediatamente.
+  * [**Etapa 1b**](etapa1b.md): sinal de número negativo e uso do *make*. 
 * **Etapa 2**: variáveis de `a` a `z`.
 * **Etapa 3**: variáveis com nomes mais longos, funções e constantes pré-definidas (`sin`, `PI`, etc.).
 * **Etapa 4**: refatoração implementando linguagem intermediária baseada em pilha.

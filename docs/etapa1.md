@@ -3,7 +3,7 @@
 Esta página descreve o programa do diretório [etapa1/](https://github.com/ramalho/hoc/tree/master/etapa1).
 
 * [Exemplo de uso](#exemplo-de-uso)
-* [Como compilar](#como-compilar)
+* [Construção do programa](#construção-do-programa)
 * [Explicação do programa](#explicação-do-programa)
 
 ## Exemplo de uso
@@ -205,7 +205,7 @@ A regra sobre `expr` é mais interessante. São 6 formas, cada uma com um bloco 
 5. duas expressões com o caractere `'/'` no meio — seu valor é a divisão da primeira pela segunda expressão;
 6. um caractere `'('`, uma expressão, e um caractere `')'` — seu valor é o valor da expressão no meio.
 
-> ✋ A gramática definida aqui não suporta o operador `-` unário. Se você passar o texto `-1` para `hoc1`, o programa vai reclamar de um erro de sintaxe. Isso será resolvido na próxima etapa.
+> ✋ A gramática definida aqui não aceita o sinal de numero negativo: se você digitar `-1` em `hoc1`, o programa vai reclamar de um erro de sintaxe. Isso será resolvido na [Etapa 1b](etapa1b.md).
 
 ### Função principal
 

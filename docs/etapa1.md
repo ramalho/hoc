@@ -122,7 +122,7 @@ Nesse exemplo, quando `yylex` lê o texto `6.49`, ela devolve o código da categ
 
 ### Declarações iniciais
 
-A seguir vamos estudar as 70 linhas de [`hoc1.y`](https://github.com/ramalho/hoc/blob/master/etapa1/hoc1.y) ([código-fonte](https://github.com/ramalho/hoc/blob/master/etapa1/hoc1.y)). Esse arquivo  é uma mistura de linhas em C com linhas na sintaxe especial de **yacc**.
+A seguir vamos estudar as 59 linhas de [`hoc1.y`](https://github.com/ramalho/hoc/blob/master/etapa1/hoc1.y) ([código-fonte](https://github.com/ramalho/hoc/blob/master/etapa1/hoc1.y)). Esse arquivo  é uma mistura de linhas em C com linhas na sintaxe especial de **yacc**.
 
 A primeira seção do código, entre os marcadores `%{` e `%}`, é código em C (tirei os marcadores para que a colorização sintática funcione nesta página):
 
@@ -134,14 +134,13 @@ A primeira seção do código, entre os marcadores `%{` e `%}`, é código em C 
 
 int yylex(void);
 void yyerror(char *);
-void aviso(char *, char *);
 ```
 
 Aqui temos:
 
 1. Inclusão de dois arquivos da biblioteca-padrão de C.
 2. Definição de uma macro em C que define o tipo `YYSTYPE` como `double`. Esse tipo é usado pelo código gerado por **yacc** para representar os valores. Por enquanto, temos um simples tipo numérico de ponto flutuante.
-3. Declaração da assinatura de três funções que serão definidas no final do arquivo, e serão invocadas por código gerado pelo **yacc**. Sem essas declarações, o compilador gera avisos de "implicit declaration" (declaração implícita).
+3. Declaração da assinatura de duas funções que serão definidas no final do arquivo, e serão invocadas por código gerado pelo **yacc**. Sem essas declarações, o compilador gera avisos de "implicit declaration" (declaração implícita).
 
 ### Definição da gramática
 
@@ -270,26 +269,19 @@ Na etapa 3, Kernighan e Pike mostram rapidamente o uso de **lex** para gerar o a
 
 ### Tratamento de erros
 
-O código de `yyparse` gerado por **yacc/bison** também precisa que você forneça uma função `yyerror`, que será chamada para reportar ou tratar situações de erro. Neste exemplo, `yyerror` apenas invoca uma função `aviso`, definida em seguida.
+O tratamento de erros nessa versão `hoc1` é tosco. Isso será melhorado nas próximas etapas.
+
+O código de `yyparse` gerado por **yacc/bison** precisa que você forneça uma função chamada `yyerror`, que será invocada para reportar situações de erro. Neste exemplo, `yyerror` apenas exibe a mensagem de erro recebida de `yyparse`, junto com o número da linha.
 
 ```c
-void
-yyerror(char* s)	/* erro de sintaxe */
+void yyerror(char* s)	/* erro de sintaxe */
 {
-	aviso(s, (char *)0);
-}
-
-void
-aviso(char *s, char *t)	/* exibir aviso */
-{
-	fprintf(stderr, "%s: %s", nome_prog, s);
-	if (t)
-		fprintf(stderr, " %s", t);
-	fprintf(stderr, " perto da linha %d\n", num_linha);
+	fprintf(stderr, "%s: %s near line %d\n", 
+		nome_prog, s, num_linha);
 }
 ```
 
-O tratamento de erros nessa versão `hoc1` é tosco. Isso será melhorado nas próximas etapas.
+Um detalhe é que a função `yyerror` emite uma mensagem de erro em inglês, porque parte do texto vem do código gerado pelo **yacc**. Por isso, mantive o texto "near line" em inglês na chamada de `fprintf`. Do contrário o programa iria gerar mensagens com idiomas misturados, como "syntax error perto da linha 1".
 
 ----
 

@@ -6,7 +6,6 @@
 
 int yylex(void);
 void yyerror(char *);
-void aviso(char *, char *);
 %}
 %token	NUMERO
 %left	'+' '-'  /* associatividade esquerda */
@@ -55,13 +54,6 @@ int yylex(void)			 /* hoc1 */
 
 void yyerror(char* s)	/* erro de sintaxe */
 {
-	aviso(s, (char *)0);
-}
-
-void aviso(char *s, char *t)	/* exibir aviso */
-{
-	fprintf(stderr, "%s: %s", nome_prog, s);
-	if (t)
-		fprintf(stderr, " %s", t);
-	fprintf(stderr, " perto da linha %d\n", num_linha);
+	fprintf(stderr, "%s: %s near line %d\n", 
+		nome_prog, s, num_linha);
 }

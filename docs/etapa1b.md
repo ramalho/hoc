@@ -57,7 +57,7 @@ Agora vamos ver como automatizar a construção do programa.
 
 ## Introdução a *make*
 
-Toda vez que fazemos uma alteração em um arquivo `.y`, temos que rodar `yacc` e depois `cc`. É inconveniente, mas o pior fazer uma mudança, esquecer um desses passos e ficar testando um executável que não foi atualizado, como já aconteceu comigo. 
+Toda vez que fazemos uma alteração em um arquivo `.y`, temos que rodar `yacc` e depois `cc`. É inconveniente, mas o pior fazer é uma mudança no arquivo `.y`, esquecer um desses passos e ficar testando um executável que não foi atualizado, como já aconteceu comigo. 
 
 É fácil criar um *script* no shell para rodar esses comandos, mas é melhor usar a ferramenta `make`, pois ela foi projetada para construir programas, processa arquivos `.y` automaticamente, e evita realizar passos desnecessários — por exemplo, não executa o compilador se o arquivo-fonte `hoc.y` não foi tocado.
 

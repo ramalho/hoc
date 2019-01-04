@@ -100,9 +100,26 @@ peso*2 <= 6.5
 * `<=`
 * `6.5`
 
+### Estrutura de *hoc1.y*
+
+Um arquivo-fonte para **yacc/bison** tem a seguinte estrutura:
+
+```
+%{
+Prólogo: declarações em C
+%}
+Declarações yacc
+%%
+Regras da gramática yacc
+%%
+Epílogo: mais código em C
+```
+
 ### Visão geral do código
 
-Neste exemplo simples de uso de **yacc**, as três funções mais importantes são:
+Neste exemplo, as três funções mais importantes são `yyparse`, `main` e `yylex`. O código de `yyparse` é gerado pelo `yacc`, a partir das declarações regras da gramática. As funções `main` e `yylex` são definidas no epílogo.
+
+Vejamos o que fazem essas três funções:
 
 #### `int main(int argc, char* argv[])`
 
@@ -110,7 +127,7 @@ Neste exemplo simples de uso de **yacc**, as três funções mais importantes s�
 
 #### `int yyparse(void)`
 
-Essa função faz a análise sintática. Ela é gerada pela ferramenta **yacc** — seu código aparece no arquivo `y.tab.c`. Ela implementa a lógica do *parser*, usando a regras especificadas em [Definição da gramática](#definição-da-gramática), como veremos. Para ler o código-fonte, `yyparse` invoca repetidamente a função `yylex`, que precisamos implementar. Neste exemplo, `yyparse` realiza os cálculos imediatamente, assim que uma estrutura sintática casa com uma regra da gramática. Em um interpretador mais sofisticado, como veremos a partir da etapa 4, `yyparse` produz uma representação interna do programa, que é passada para um *evaluator* (avaliador), que vai executar as instruções.
+Essa função faz a análise sintática. Seu código aparece no arquivo `y.tab.c`. Ela implementa a lógica do *parser*, usando a regras especificadas em [Definição da gramática](#definição-da-gramática), como veremos. Para ler o código-fonte, `yyparse` invoca repetidamente a função `yylex`, que precisamos implementar. Neste exemplo, `yyparse` realiza os cálculos imediatamente, assim que uma estrutura sintática casa com uma regra da gramática. Em um interpretador mais sofisticado, como veremos a partir da etapa 4, `yyparse` produz uma representação interna do programa, que é passada para um *evaluator* (avaliador), que vai executar as instruções.
 
 #### `int yylex(void)`
 

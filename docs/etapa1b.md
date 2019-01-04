@@ -1,6 +1,6 @@
 # *hoc1b*: sinal negativo e *make*
 
-Esta página descreve o programa do diretório [etapa1b/](https://github.com/ramalho/hoc/tree/master/etapa1b).
+Esta página descreve os arquivos do diretório [etapa1b/](https://github.com/ramalho/hoc/tree/master/etapa1b).
 
 * [Explicação do programa](#explicação-do-programa)
 * [Construir e testar](#construir-e-testar)

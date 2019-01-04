@@ -53,11 +53,13 @@ $ ./hoc1b < testes.hoc
 
 Para testar o sinal de negativo, incluí a linha `-3 - 4` em `testes.hoc`. Por isso, o resultado -7.
 
+Agora vamos ver como automatizar a construção do programa.
+
 ## Introdução a *make*
 
-Toda vez que fazemos uma alteração em um arquivo `.y`, temos que rodar `yacc` e depois `cc`. É inconveniente, mas o pior é às vezes esquecer uma dessas etapas, como já aconteceu comigo. Ao preparar a etapa 1, houve um momento em que eu editava `hoc1.y` e repetia o comando `yacc hoc1.y`, mas o comportamento do executável continuava igual. Perdi alguns minutos até perceber que eu estava testando uma versão velha do executável porque estava esquecendo de compilar o `y.tab.c` gerado! E se você esquecer de rodar `yacc` antes do `cc`, terá o mesmo problema: não verá mudança alguma no executável, pois estará apenas compilando uma versão velha do `y.tab.c`.
+Toda vez que fazemos uma alteração em um arquivo `.y`, temos que rodar `yacc` e depois `cc`. É inconveniente, mas o pior é esquecer um desses passos, como já aconteceu comigo. Ao preparar a etapa 1, houve um momento em que eu editava `hoc1.y` e repetia o comando `yacc hoc1.y`, mas o comportamento do executável continuava igual. Perdi alguns minutos até perceber que eu estava testando uma versão velha do executável porque estava esquecendo de compilar o `y.tab.c`  gerado! E se você esquecer de rodar `yacc` antes do `cc`, terá o mesmo problema: não verá mudança alguma no executável, pois estará apenas compilando uma versão velha do `y.tab.c`.
 
-É fácil criar um *script* no shell para rodar esses comandos, mas é bem melhor usar a ferramenta `make`, pois ela foi projetada para construir programas, sabe lidar com arquivos `.y`, e evita realizar passos desnecessários — por exemplo, não executar o compilador se o arquivo-fonte `hoc.y` não foi alterado.
+É fácil criar um *script* no shell para rodar esses comandos, mas é bem melhor usar a ferramenta `make`, pois ela foi projetada para construir programas, processa arquivos `.y` automaticamente, e evita realizar passos desnecessários — por exemplo, não executa o compilador se o arquivo-fonte `hoc.y` não foi tocado.
 
 Para começar a usar `make`, você precisa criar um arquivo chamado `Makefile`. Para essa etapa, o `Makefile` é bem simples:
 
@@ -93,7 +95,7 @@ $ make
 make: 'hoc1b' is up to date.
 ```
 
-> 🗒 No livro UPE, o nome do `makefile` é escrito assim, sem inicial maiúscula. Atualmente a convenção é usar `Makefile`, conforme o [manual do GNU make](https://www.gnu.org/software/make/manual/html_node/Makefile-Names.html), apenas para dar maior destaque a este arquivo que será o mais útil para a pessoa interessada em compilar um programa.
+> 🗒 No livro [UPE](https://en.wikipedia.org/wiki/The_Unix_Programming_Environment), o nome do `makefile` é escrito assim, sem inicial maiúscula. Atualmente a convenção é usar `Makefile`, conforme o [manual do GNU make](https://www.gnu.org/software/make/manual/html_node/Makefile-Names.html), apenas para dar maior destaque a este arquivo que será o mais útil para a pessoa interessada em compilar um programa.
 
 ----
 

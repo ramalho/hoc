@@ -82,6 +82,13 @@ Observe os comandos executados por `make`:
 4. `cc` para montar o executável `hoc1b` a partir de `hoc1b.o`;
 5. `rm` para apagar `hob1b.o` e `hob1b.c`.
 
+Se você rodar `make hoc1b` de novo, `make` não faz nada além de avisar que o executável `hoc1b` já está atualizado:
+
+```bash
+$ make hoc1b
+make: 'hoc1b' is up to date.
+```
+
 Toda essa lógica e muito mais está embutida no `make`.
 
 Veremos depois como criar um `Makefile` para configurar as ações do `make`.

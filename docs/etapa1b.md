@@ -68,9 +68,9 @@ hoc1b:	hoc1b.o
 	cc hoc1b.o -o hoc1b
 ```
 
-Nesse `Makefile`, está definido que `hoc1b` depende de `hoc1b.o`, que deve ser compilado com `cc`. Não é preciso mencionar o arquivo `hoc1b.y`, porque `make` sabe que um arquivo `.y` precisa ser processado por `yacc`.
+Nesse `Makefile`, está definido que `hoc1b` depende de `hoc1b.o`, que deve ser compilado com `cc`. Não é preciso citar o arquivo `hoc1b.y`, porque `make` é programado para processar arquivos `.y` com `yacc`.
 
-Uma vez criado o `Makefile`, executar o comando `make` no diretório `etapa1b/` gera esta saída:
+Uma vez criado o `Makefile`, se você executar o comando `make` no diretório `etapa1b/`, verá esta saída:
 
 ```bash
 $ make
@@ -81,7 +81,15 @@ cc hoc1b.o -o hoc1b
 rm hoc1b.c
 ```
 
-Observe que `yacc` é executado, o arquivo gerado `y.tab.c` é renomeado para `hoc1b.c`, e o compilador é usado para gerar o arquivo-objeto `hoc1b.o` e depois o executável `hoc1b`. No final, `hob1b.c` é apagado. O resultado é a criação dos arquivos `hoc1b.o` e `hoc1b`:
+Observe os comandos executados por `make`: 
+
+1. `yacc` processa `hoc1b.y`, gerando `y.tab.c`; 
+2. `mv` renomeia `y.tab.c` para `hoc1b.c`;
+3. `cc` compila `hoc1b.c`, gerando o arquivo-objeto `hoc1b.o`;
+4. `cc` monta o executável `hoc1b`;
+5. `rm` apaga `hob1b.c`.
+
+O resultado é a criação dos arquivos `hoc1b.o` e `hoc1b`:
 
 ```bash
 $ ls
@@ -95,7 +103,9 @@ $ make
 make: 'hoc1b' is up to date.
 ```
 
-> 🗒 No livro [UPE](https://en.wikipedia.org/wiki/The_Unix_Programming_Environment), o nome do `makefile` é escrito assim, sem inicial maiúscula. Atualmente a convenção é usar `Makefile`, conforme o [manual do GNU make](https://www.gnu.org/software/make/manual/html_node/Makefile-Names.html), apenas para dar maior destaque a este arquivo que será o mais útil para a pessoa interessada em compilar um programa.
+Tudo isso com um `Makefile` de apenas duas linhas e 36 bytes!
+
+> 🗒 No livro [UPE](https://en.wikipedia.org/wiki/The_Unix_Programming_Environment), o nome do `makefile` é escrito assim, em minúsculas. Atualmente a convenção é usar `M` maiúsculo em `Makefile`, conforme o [manual do GNU make](https://www.gnu.org/software/make/manual/html_node/Makefile-Names.html). O motivo é dar mais destaque a este arquivo que é o mais útil para uma pessoa interessada em compilar um programa.
 
 ----
 

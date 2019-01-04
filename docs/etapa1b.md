@@ -61,51 +61,28 @@ Toda vez que fazemos uma alteração em um arquivo `.y`, temos que rodar `yacc` 
 
 É fácil criar um *script* no shell para rodar esses comandos, mas é bem melhor usar a ferramenta `make`, pois ela foi projetada para construir programas, processa arquivos `.y` automaticamente, e evita realizar passos desnecessários — por exemplo, não executa o compilador se o arquivo-fonte `hoc.y` não foi tocado.
 
-Para começar a usar `make`, você precisa criar um arquivo chamado `Makefile`. Para essa etapa, o `Makefile` é bem simples:
-
-```make
-hoc1b:	hoc1b.o
-	cc hoc1b.o -o hoc1b
-```
-
-Nesse `Makefile`, está definido que `hoc1b` depende de `hoc1b.o`, que deve ser compilado com `cc`. Não é preciso citar o arquivo `hoc1b.y`, porque `make` é programado para processar arquivos `.y` com `yacc`.
-
-Uma vez criado o `Makefile`, se você executar o comando `make` no diretório `etapa1b/`, verá esta saída:
+Se você executar o comando `make hoc1b` no diretório `etapa1b/`, verá esta saída:
 
 ```bash
-$ make
+$ make hoc1b
 yacc  hoc1b.y 
 mv -f y.tab.c hoc1b.c
 cc    -c -o hoc1b.o hoc1b.c
-cc hoc1b.o -o hoc1b
-rm hoc1b.c
+cc   hoc1b.o   -o hoc1b
+rm hoc1b.o hoc1b.c
 ```
 
 Observe os comandos executados por `make`: 
 
-1. `yacc` processa `hoc1b.y`, gerando `y.tab.c`; 
-2. `mv` renomeia `y.tab.c` para `hoc1b.c`;
-3. `cc` compila `hoc1b.c`, gerando o arquivo-objeto `hoc1b.o`;
-4. `cc` monta o executável `hoc1b`;
-5. `rm` apaga `hob1b.c`.
+1. `yacc` para processar `hoc1b.y` e gerar `y.tab.c`; 
+2. `mv` para renomear `y.tab.c` para `hoc1b.c`;
+3. `cc` para compilar `hoc1b.c` e gerar o arquivo-objeto `hoc1b.o`;
+4. `cc` para montar o executável `hoc1b` a partir de `hoc1b.o`;
+5. `rm` para apagar `hob1b.o` e `hob1b.c`.
 
-O resultado é a criação dos arquivos `hoc1b.o` e `hoc1b`:
+Toda essa lógica e muito mais está embutida no `make`.
 
-```bash
-$ ls
-hoc1b  hoc1b.o  hoc1b.y  Makefile  README.md  testes.hoc
-```
-
-Depois disso, se você executar `make` novamente, ele não faz nada além de avisar que `hoc1b` já é a versão mais atual:
-
-```bash
-$ make
-make: 'hoc1b' is up to date.
-```
-
-Tudo isso com um `Makefile` de apenas duas linhas e 36 bytes!
-
-> 🗒 No livro [UPE](https://en.wikipedia.org/wiki/The_Unix_Programming_Environment), o nome do `makefile` é escrito assim, em minúsculas. Atualmente a convenção é usar `M` maiúsculo em `Makefile`, conforme o [manual do GNU make](https://www.gnu.org/software/make/manual/html_node/Makefile-Names.html). O motivo é dar mais destaque a este arquivo que é o mais útil para uma pessoa interessada em compilar um programa.
+Veremos depois como criar um `Makefile` para configurar as ações do `make`.
 
 ----
 

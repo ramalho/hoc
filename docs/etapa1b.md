@@ -1,4 +1,4 @@
-# *hoc1b*: número negativos e *make*
+# *hoc1b*: sinal negativo e *make*
 
 Esta página descreve o programa do diretório [etapa1b/](https://github.com/ramalho/hoc/tree/master/etapa1b).
 
@@ -8,13 +8,13 @@ Esta página descreve o programa do diretório [etapa1b/](https://github.com/ram
 
 ## Explicação do programa
 
-Uma das vantagens de usar o **yacc/bison** é que a definição de alto-nível da gramática facilitar mudar ou acrescentar novos recursos à linguagem que estamos desenvolvendo.
+Uma das vantagens de usar o **yacc/bison** é que a definição de alto nível da gramática facilita mudar ou acrescentar novos recursos à linguagem que estamos desenvolvendo.
 
-Para incorporar o sinal de número negativo, será preciso apenas acrescentar duas linhas. O código-fonte completo está em [`hoc1b.y`](https://github.com/ramalho/hoc/blob/master/etapa1b/hoc1b.y) ([link](https://github.com/ramalho/hoc/blob/master/etapa1b/hoc1b.y)).
+Para incorporar o sinal de número negativo, será preciso apenas mais duas linhas de código. O código-fonte completo está em [`hoc1b.y`](https://github.com/ramalho/hoc/blob/master/etapa1b/hoc1b.y) ([link](https://github.com/ramalho/hoc/blob/master/etapa1b/hoc1b.y)).
 
 ### Mudanças na gramática
 
-A primeira mudança é acresecentar declaração do *token* `NEGATIVO` que vai representar operador também conhecido como *unary minus* (menos unário).
+A primeira mudança é acresecentar a declaração do *token* `NEGATIVO` que vai representar o operador também conhecido como *unary minus* (menos unário).
 
 ```c
 %token	NUMERO
@@ -23,9 +23,9 @@ A primeira mudança é acresecentar declaração do *token* `NEGATIVO` que vai r
 %left	NEGATIVO /* hoc1b */
 ```
 
-Acrescentar `NEGATIVO` por último dá a precedência mais alta para esse sinal.
+Colocar `NEGATIVO` por último dá a precedência mais alta para esse sinal.
 
-A próxima mudança é incluir a uma nova forma nas regras sintáticas de `expr`:
+A próxima mudança é incluir uma nova forma nas regras sintáticas de `expr`:
 
 ```c
 expr:	  NUMERO { $$ = $1; }
@@ -37,9 +37,9 @@ expr:	  NUMERO { $$ = $1; }
 
 A 2ª linha estabelece que a forma `'-' expr` terá precedência alta (`%prec NEGATIVO`), e seu valor será o negativo da expressão (`$$ = -$2`). A forma da 4ª linha (`expr '-' expr`) continuará sendo usada quando o sinal `'-'` aparecer entre duas expressões.
 
-## Construção do programa
+## Construir e testar
 
-Use `yacc` para gerar o código do programa em C, compile, e teste:
+Use `yacc` para gerar o código em C, compile, e teste:
 
 ```bash
 $ yacc hoc1b.y
@@ -55,9 +55,9 @@ Para testar o sinal de negativo, incluí a linha `-3 - 4` em `testes.hoc`. Por i
 
 ## Introdução a *make*
 
-Toda vez que fazemos uma alteração em um arquivo `.y`, temos que rodar `yacc` e depois `cc`. É inconveniente, mas o pior é às vezes esquecer uma dessas etapas, como já aconteceu comigo. Ao preparar a etapa 1, houve um momento em que eu editava `hoc1.y` e repetia o comando `yacc`, mas o comportamento do programa continuava igual. Perdi alguns minutos até perceber que eu estava esquecendo de compilar o `y.tab.c` gerado, e estava testando uma versão velha do executável! E se você esquecer de rodar `yacc` antes do `cc`, terá o mesmo problema: não verá mudança alguma no programa compilado, pois estará apenas compilando uma versão velha do `y.tab.c`.
+Toda vez que fazemos uma alteração em um arquivo `.y`, temos que rodar `yacc` e depois `cc`. É inconveniente, mas o pior é às vezes esquecer uma dessas etapas, como já aconteceu comigo. Ao preparar a etapa 1, houve um momento em que eu editava `hoc1.y` e repetia o comando `yacc hoc1.y`, mas o comportamento do executável continuava igual. Perdi alguns minutos até perceber que eu estava testando uma versão velha do executável porque estava esquecendo de compilar o `y.tab.c` gerado! E se você esquecer de rodar `yacc` antes do `cc`, terá o mesmo problema: não verá mudança alguma no executável, pois estará apenas compilando uma versão velha do `y.tab.c`.
 
-É fácil criar um *script* no shell para rodar esses dois comandos, mas é bem melhor usar a ferramenta `make`, pois ela foi projetada para construir programas, sabe lidar com arquivos `.y`, e evita realizar passos desnecessários — por exemplo, não executar o compilador se o arquivo-fonte `hoc.y` não foi alterado.
+É fácil criar um *script* no shell para rodar esses comandos, mas é bem melhor usar a ferramenta `make`, pois ela foi projetada para construir programas, sabe lidar com arquivos `.y`, e evita realizar passos desnecessários — por exemplo, não executar o compilador se o arquivo-fonte `hoc.y` não foi alterado.
 
 Para começar a usar `make`, você precisa criar um arquivo chamado `Makefile`. Para essa etapa, o `Makefile` é bem simples:
 
@@ -79,7 +79,7 @@ cc hoc1b.o -o hoc1b
 rm hoc1b.c
 ```
 
-Observe que `yacc` é executado, o arquivo gerado `y.tab.c` é renomeado para `hoc1b.c`, e o compilador é usado para gerar o arquivo-objeto `hoc1b.o`. No final, `hob1b.c` é apagado. O resultado é a criação do arquivo-objeto `hoc1b.o` e do executável `hoc1b`:
+Observe que `yacc` é executado, o arquivo gerado `y.tab.c` é renomeado para `hoc1b.c`, e o compilador é usado para gerar o arquivo-objeto `hoc1b.o` e depois o executável `hoc1b`. No final, `hob1b.c` é apagado. O resultado é a criação dos arquivos `hoc1b.o` e `hoc1b`:
 
 ```bash
 $ ls

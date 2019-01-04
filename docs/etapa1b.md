@@ -57,9 +57,11 @@ Agora vamos ver como automatizar a construção do programa.
 
 ## Introdução a *make*
 
-Toda vez que fazemos uma alteração em um arquivo `.y`, temos que rodar `yacc` e depois `cc`. É inconveniente, mas o pior é esquecer um desses passos, como já aconteceu comigo. Ao preparar a etapa 1, houve um momento em que eu editava `hoc1.y` e repetia o comando `yacc hoc1.y`, mas o comportamento do executável continuava igual. Perdi alguns minutos até perceber que eu estava testando uma versão velha do executável porque estava esquecendo de compilar o `y.tab.c`  gerado! E se você esquecer de rodar `yacc` antes do `cc`, terá o mesmo problema: não verá mudança alguma no executável, pois estará apenas compilando uma versão velha do `y.tab.c`.
+Toda vez que fazemos uma alteração em um arquivo `.y`, temos que rodar `yacc` e depois `cc`. É inconveniente, mas o pior é esquecer um desses passos, como já aconteceu comigo. 
 
-É fácil criar um *script* no shell para rodar esses comandos, mas é bem melhor usar a ferramenta `make`, pois ela foi projetada para construir programas, processa arquivos `.y` automaticamente, e evita realizar passos desnecessários — por exemplo, não executa o compilador se o arquivo-fonte `hoc.y` não foi tocado.
+> 🗒 Ao preparar a etapa 1, houve um momento em que eu editava `hoc1.y` e repetia o comando `yacc hoc1.y`, mas o comportamento do executável não mudava. Perdi alguns minutos até perceber que eu estava testando uma versão velha do executável porque estava esquecendo de compilar o `y.tab.c`  gerado! E se você esquecer de rodar `yacc` antes do `cc`, terá o mesmo problema: não verá mudança alguma no executável, pois estará apenas compilando uma versão velha do `y.tab.c`.
+
+É fácil criar um *script* no shell para rodar esses comandos, mas é melhor usar a ferramenta `make`, pois ela foi projetada para construir programas, processa arquivos `.y` automaticamente, e evita realizar passos desnecessários — por exemplo, não executa o compilador se o arquivo-fonte `hoc.y` não foi tocado.
 
 Se você executar o comando `make hoc1b` no diretório `etapa1b/`, verá esta saída:
 

@@ -1,6 +1,6 @@
-# *hoc1*: calculadora de quatro operações
+# *hoc1b*: calculadora de quatro operações
 
-Veja o [código desta etapa explicado](https://ramalho.github.io/hoc/etapa1).
+Veja o [código desta etapa explicado](https://ramalho.github.io/hoc/etapa1b).
 
 ## Como compilar
 

@@ -1,6 +1,6 @@
 from pytest import mark
 
-from bola7 import Adorno
+from bola7 import Adornador
 
 @mark.parametrize("entra, esperado", [
     ('<1>', '❶' ),
@@ -10,7 +10,7 @@ from bola7 import Adorno
     ('Abc <#>\ndef <#>.', 'Abc ❶\ndef ❷.' ),
     ('<#> <#> <!> <#>', '❶ ❷ ❶ ❷' ),
 ])
-def test_decorar(entra, esperado):
-    adorno = Adorno()
-    res = adorno(entra)
+def test_adornar(entra, esperado):
+    adornar = Adornador()
+    res = adornar(entra)
     assert esperado == res

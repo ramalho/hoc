@@ -29,13 +29,13 @@ lista:	  /* nada */
 	| lista error '\n' { yyerrok; }
 	;
 expr:	  NUMERO	{ $$ = $1; }
-	| VAR		{ $$ = mem[$1]; }	/* ❶ */
-	| VAR '=' expr	{ $$ = mem[$1] = $3; }  /* ❷ */
+	| VAR		{ $$ = mem[$1]; }	/* <#> */
+	| VAR '=' expr	{ $$ = mem[$1] = $3; }  /* <#> */
 	| '-' expr %prec NEGATIVO { $$ = -$2; }
 	| expr '+' expr	{ $$ = $1 + $3; }
 	| expr '-' expr	{ $$ = $1 - $3; }
 	| expr '*' expr	{ $$ = $1 * $3; }
-	| expr '/' expr	{			/* ❸ */
+	| expr '/' expr	{			/* <#> */
 		if ($3 == 0.0)
 			recuperar("division by zero");
 		$$ = $1 / $3; }
@@ -54,8 +54,8 @@ int main(int argc, char* argv[]) /* hoc2 */
 
 	nome_prog = argv[0];
 
-	setjmp(inicio);			/* ❶ */
-	signal(SIGFPE, tratar_exc_pf);	/* ❷ */
+	setjmp(inicio);			/* <!> */
+	signal(SIGFPE, tratar_exc_pf);	/* <#> */
 
 	yyparse();
 }
@@ -73,7 +73,7 @@ int yylex(void)			 /* hoc2 */
 		scanf("%lf", &yylval.val);
 		return NUMERO;
 	}
-	if (islower(c)) {			/* ❶ */	
+	if (islower(c)) {			/* <1> */	
 		yylval.indice = c - 'a';  	/* só ASCII */
 		return VAR;
 	}
@@ -96,7 +96,7 @@ void aviso(char *s)	/* exibir aviso */
 void recuperar(char* s)  /* recuperar de um erro de uso */
 {
 	aviso(s);
-	longjmp(inicio, 0);	/* ❶ */
+	longjmp(inicio, 0);	/* <1> */
 }
 
 void tratar_exc_pf()	/* tratar exceções de ponto flutuante */

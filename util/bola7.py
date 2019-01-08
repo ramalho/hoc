@@ -1,21 +1,26 @@
+#!/usr/bin/env python3
+
 import re
+import sys
+import shutil
 
 TAG_NUMERO = re.compile(r'<([#!\d]\d?)>')
 
 BOLA_1 = 0x2776
 
-class Adorno:
+class Adornador:
     def __init__(self):
-        self.contador = (n for n in range(1, 10))
+        self.proximo = 1
 
     def __call__(self, texto):
         tags = TAG_NUMERO.findall(texto)
         for tag in tags:
-            if tag == '#':
-                numero = next(self.contador)
-            elif tag == '!':
-                self.__init__()
-                numero = next(self.contador)
+            if tag == '!':
+                numero = 1
+                self.proximo = 2
+            elif tag == '#':
+                numero = self.proximo
+                self.proximo += 1
             else:
                 numero = int(tag)
             bola = chr(BOLA_1 + numero - 1)
@@ -24,7 +29,10 @@ class Adorno:
 
 
 if __name__ == '__main__':
-    import sys
-    with open(sys.argv[1]) as entrada:
-        adorno = Adorno()
-        print(adorno(entrada.read()))
+    nome_arq = sys.argv[1]
+    shutil.copyfile(nome_arq, nome_arq+'.BKP')
+    adornar = Adornador()
+    with open(nome_arq) as arq:
+        entrada = arq.read()
+    with open(nome_arq, 'wt') as arq:
+        arq.write(adornar(entrada))

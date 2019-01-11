@@ -2,7 +2,7 @@
 
 * [Porque isso é interessante](#porque-isso-é-interessante)
 * [Características de `hoc`](#características-de-hoc)
-* [Organização deste repositório](#organização-deste-repositório)
+* [O que há neste repositório](#o-que-há-neste-repositório)
 * [Índice de páginas](#índice-de-páginas)
 
 ## Porque isso é interessante
@@ -62,7 +62,11 @@ No código acima, a variável `$1` é o primeiro argumento passado para   `fib`.
 
 > 🗒 A distinção entre procedimentos e funções é natural para quem já programou em Pascal ou Delphi. Muitas linguagens modernas não separam os dois conceitos claramente. Por exemplo, em Python não há procedimentos, há apenas funções que não devolvem nenhum valor explicitamente mas, implicitamente, devolvem o valor `None`, que a gente ignora.
 
-## Organização deste repositório
+## O que há neste repositório
+
+Os textos em português não são uma tradução direta do original e sim uma recriação com minhas próprias palavras. Em alguns pontos minhas explicações são mais detalhadas, em outros pontos são mais resumidas. O capítulo original tem cerca de 50 páginas, e o assunto é bem amplo, então em vários pontos os autores se desculpam pela abordagem rápida e superficial. Eu certamente não conheço o assunto melhor que eles.
+
+Os códigos em C e **yacc** são razoavelmente fiéis ao original, exceto por algumas simplificações e também porque eu traduzi todos os identificadores de variáveis e funções que podiam ser traduzidos. Isso torna mais fácil para o leitor saber o que são identificadores nossos, como `NUMERO` e `aviso`, e o que são identificadores externos que somos obrigados a preservar, como `main` ou `yylex`.
 
 O diretório `/complete` é um fork do repositório [richardfearn/hoc](https://github.com/richardfearn/hoc) no GitHub. Richard Fearn modificou código original de 1984 para compilar e executar em um sistema GNU/Linux em 2012. Em 1/jan/2019, não está acessível o site onde o código original foi publicado ([http://netlib.bell-labs.com/cm/cs/upe/](http://netlib.bell-labs.com/cm/cs/upe/)).
 

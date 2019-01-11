@@ -64,17 +64,17 @@ No código acima, a variável `$1` é o primeiro argumento passado para   `fib`.
 
 ## O que há neste repositório
 
-Os textos em português não são uma tradução direta do original e sim uma recriação com minhas próprias palavras. Em alguns pontos minhas explicações são mais detalhadas, em outros pontos são mais resumidas. O capítulo original tem cerca de 50 páginas, e o assunto é bem amplo, então em vários pontos os autores se desculpam pela abordagem rápida e superficial. Eu certamente não conheço o assunto melhor que eles.
+Os textos em português não são uma tradução direta do original e sim uma recriação com minhas próprias palavras. Em alguns pontos minhas explicações são mais detalhadas, em outros pontos são mais resumidas. O capítulo 8 do original tem 55 páginas, e o assunto é bem amplo, então em vários pontos os autores se desculpam pela abordagem rápida e superficial das ferramentas.
 
-Os códigos em C e **yacc** são razoavelmente fiéis ao original, exceto por algumas simplificações e também porque eu traduzi todos os identificadores de variáveis e funções que podiam ser traduzidos. Isso torna mais fácil para o leitor saber o que são identificadores nossos, como `NUMERO` e `aviso`, e o que são identificadores externos que somos obrigados a preservar, como `main` ou `yylex`.
+Os códigos em C e **yacc** são razoavelmente fiéis ao original, exceto por algumas simplificações e também porque eu traduzi todos os identificadores de variáveis e funções que podiam ser traduzidos. Isso torna mais fácil para a leitora saber o que são identificadores nossos, como `NUMERO` e `aviso`, e o que são identificadores externos que somos obrigados a preservar, como `main` ou `yylex`.
 
 O diretório `/complete` é um fork do repositório [richardfearn/hoc](https://github.com/richardfearn/hoc) no GitHub. Richard Fearn modificou código original de 1984 para compilar e executar em um sistema GNU/Linux em 2012. Em 1/jan/2019, não está acessível o site onde o código original foi publicado ([http://netlib.bell-labs.com/cm/cs/upe/](http://netlib.bell-labs.com/cm/cs/upe/)).
 
-> 🗒 Você pode compilar o programa rodando `make` no diretório `/complete`, desde que tenha instalado as ferramentas de desenvolvimento do seu sistema, incluindo **bison** e **flex**.
+> 🗒 Você pode compilar o programa rodando `make` no diretório `/complete`, desde que tenha instalado as ferramentas de desenvolvimento do seu sistema, incluindo **bison** ou **byacc** — substitutos modernos do **yacc**.
 
 O diretório `/docs` contém esta página que você está lendo e as explicações das etapas do desenvolvimento de `hoc`.
 
-Os demais diretórios contém as 6 etapas da construção de `hoc`, como descrito em [The Unix Programming Environment](https://en.wikipedia.org/wiki/The_Unix_Programming_Environment).
+Os demais diretórios contém as 6 etapas da construção de `hoc`, como descrito nas seções 8.1 a 8.6 em [The Unix Programming Environment](https://en.wikipedia.org/wiki/The_Unix_Programming_Environment).
 
 ## Índice de páginas
 

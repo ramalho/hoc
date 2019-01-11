@@ -7,7 +7,7 @@ Aqui está descrito o programa do diretório [etapa2/](https://github.com/ramalh
 
 ## Explicação do programa
 
-Nesta etapa 2 vamos implementar variáveis e o operador de atribuição `=` na linguagem `hoc`. Para reduzir as mudanças necessárias, por enquanto vamos suportar variáveis com nomes de uma letra apenas, e somente minúsculas de "a" até "z".
+Nesta etapa 2 implementamos variáveis e o operador de atribuição `=` na linguagem `hoc`. Para reduzir as mudanças necessárias, por enquanto vamos suportar variáveis com nomes de uma letra apenas, e somente minúsculas de "a" até "z".
 
 O operador de atribuição terá associatividade direita, e formará uma expressão cujo valor é o número que está sendo atribuído. Essas características permitem atribuições múltiplas, assim:
 
@@ -15,7 +15,7 @@ O operador de atribuição terá associatividade direita, e formará uma express
 a = b = c = 3
 ```
 
-Usaremos variáveis de "a" até "z" porque assim é fácil transformar o nome em um índice para um *array* de 26 posições. Introduzir variáveis na gramática traz uma complicação: agora a pilha de execução de **yacc** precisará lidar com valores de dois tipos: `double` para os números, e `int` para as variáveis. Para isso usaremos uma declaração `%union` no prólogo.
+Usaremos variáveis de "a" até "z" porque assim é fácil transformar o nome em um índice para um *array* de 26 posições. Introduzir variáveis na gramática traz uma complicação: agora a pilha de execução de **yacc** precisará lidar com valores de dois tipos: `double` para os números, e `int` para os índices das variáveis. Para isso usaremos uma declaração `%union` do **yacc**. Ela define um tipo que é a união de dois ou mais tipos.
 
 Também vamos melhorar o tratamento de erros. Em `hoc1b`, uma expressão com erro de sintaxe como `3+/2` encerra o interpretador. Em `hoc2` vamos mostrar um aviso e continuar.
 
@@ -23,7 +23,7 @@ Também vamos melhorar o tratamento de erros. Em `hoc1b`, uma expressão com err
 
 ### Mudanças no prólogo
 
-O prólogo de `hoc2.y` fica assim entre as marcas `%{` e `%}` — aqui omitidas para não atrapalhar a colorização da sintaxe na Web:
+O prólogo de `hoc2.y` fica assim entre as marcas `%{` e `%}` (aqui omitidas para não atrapalhar a colorização da sintaxe na Web):
 
 
 ```c
@@ -63,11 +63,11 @@ Após o final do prólogo marcado por `%}`  temos várias novidades nas delcara�
 %left	NEGATIVO
 ```
 
-1. A pilha de **yacc** agora vai conter elementos definidos pela união desses dois tipos: `double` quando for um valor numérico, ou `int` quando for uma variável representada pelo índice no array `mem[]`.
-2. A declaração da categoria de *token* `NUMERO` agora inclui o tipo `<val>`, que se refere ao membro tipo `double` da união declarada acima.
-3. A nova declaração da categoria `VAR` inclui o tipo `<indice>`, indicando o membro `int` na união.
-4. Esta declaração indica que o tipo de uma expressão é `<val>`, o mesmo que `double` na união.
-5. O *token* `=` é declarado com precedência mínima e associatividade direita.
+1. A pilha de **yacc** agora vai conter elementos definidos pela união desses dois tipos: `double` quando for um valor numérico, ou `int` quando for o índice de uma variável no array `mem[]`.
+2. A declaração da categoria de *token* `NUMERO` agora inclui o tipo `<val>`, que se refere ao membro `double val` da união declarada acima.
+3. A nova declaração da categoria `VAR` inclui o tipo `<indice>`, indicando o membro `int indice` na união.
+4. Esta declaração indica que o tipo de uma expressão é `<val>`, o mesmo que `double val` na união.
+5. O *token* `=` é declarado com associatividade direita e precedência mínima (porque aparece antes dos demais operadores).
 
 ### Mudanças na gramática
 
@@ -126,12 +126,12 @@ int main(int argc, char* argv[]) /* hoc2 */
 ```
 
 1. A variável `inicio` armazenará uma *struct* com dados para o funcionamento das chamadas `setjmp` e `longjmp` que servirão para reiniciar o interpretador em caso de erro ou exceção.
-2. A chamada `setjmp(inicio)` armazena informações sobre este ponto do programa para permitir o desvio para este ponto quando `longjmp` for invocada na função `recuperar`, definida mais abaixo. Na prática, `setjmp` marca um alvo, ou destino, para um desvio de execução.
-3. Essa chamada registra a função `tratar_exc_pf` como *handler* (tratadora) para quando o sistema operacional levantar um sinal `SIGFPE` que é uma exceção de ponto flutuante usada, por exemplo, para indicar overflow.
+2. A chamada `setjmp(inicio)` armazena informações sobre este ponto do programa para permitir o desvio para este local quando `longjmp` for invocada na função `recuperar`, definida mais abaixo. Na prática, `setjmp` marca um alvo, ou destino, para um desvio de execução.
+3. Essa chamada registra a função `tratar_exc_pf` como *handler* (tratadora) para quando o sistema operacional levantar um sinal `SIGFPE` que é uma exceção de ponto flutuante usada para indicar *overflow* ou outros erros.
 
-> ✋ Não consegui reproduzir a exceção de *overflow* citada no texto original de [UPE](https://en.wikipedia.org/wiki/The_Unix_Programming_Environment). Quando digito `1e300*1e300` em `hoc2` aparece o resultado `inf` — o ∞ da norma [IEEE 754-1985](https://en.wikipedia.org/wiki/IEEE_754-1985#Positive_and_negative_infinity). Se você sabe como provocar uma exceção de ponto flutuante em `hoc2`, por gentileza faça um *pull-request*, pois assim poderemos demonstrar ou uso de `signal`.
+> ✋ Não consegui reproduzir a exceção de *overflow* citada no texto original de [UPE](https://en.wikipedia.org/wiki/The_Unix_Programming_Environment). Quando digito `1e300*1e300` em `hoc2` aparece o resultado `inf` — o ∞ da norma [IEEE 754-1985](https://en.wikipedia.org/wiki/IEEE_754-1985#Positive_and_negative_infinity). Se você sabe como provocar uma exceção de ponto flutuante em `hoc2`, por gentileza faça um *pull-request*, pois assim poderemos demonstrar ou uso de `signal` e acionar a função `tratar_exc_pf`.
 
-A função de análise léxica ganha mudanças no acesso à variável `yylval`,  mais algumas linhas para tratar um token de variável:
+A função de análise léxica ganha mudanças no acesso à variável `yylval`, e mais algumas linhas para tratar um *token* de variável:
 
 ```c
 int yylex(void)			 /* hoc2 */
@@ -157,8 +157,8 @@ int yylex(void)			 /* hoc2 */
 }
 ```
 
-1. Agora `yyval` não é mais um valor simples, e sim uma união de dois membros. Aqui atribuímos o valor numérico lido ao membto `.val`.
-2. Esse novo `if` testa se `c` é um caractere ASCII minúsculo. Em caso afirmativo, `yyval.indice` recebe o valor de `c` menos `'a'` (o código ASCII do "a" minúsculo). Por exemplo, o índice da variável `'a'` será 0, `'b'` será 1, etc.
+1. Agora `yyval` não é mais um valor simples, e sim uma união de dois membros. Aqui salvamos o valor numérico lido por `scanf` no endereço do membro `yylval.val`.
+2. Esse novo `if` testa se `c` é o código ASCII de uma letra minúscula. Em caso afirmativo, `yyval.indice` recebe o valor de `c` menos `'a'` (o código ASCII do "a" minúsculo). Por exemplo, o índice da variável `'a'` será 0, `'b'` será 1, etc.
 3. Depois de armazenar o índice em `yylval`, devolvemos para o parser a indicação de que um *token* da categoria `VAR`.
 
 E finalmente, temos as funções de tratamento de erros:
@@ -191,9 +191,9 @@ void tratar_exc_pf()	/* tratar exceções de ponto flutuante */
 * **`yyerror`**, que é chamada pelo *parser* gerado por **yacc**, agora usa nossa função `aviso`. 
 * **`aviso`** apenas exibe uma mensagem em `stderr`, informando a linha onde o erro foi detectado.
 * **`recuperar`** exibe um aviso, e desvia a execução para o ponto marcado pela chamada `setjmp(inicio)` na função `main`.
-* **`tratar_exc_pf`** usa recuperar para indicar uma exceção de ponto flutuante.
+* **`tratar_exc_pf`** usa `recuperar` para avisar que houve uma exceção de ponto flutuante.
 
-> ✋ `tratar_exc_pf` é a função que não consegui testar, porque não consegui gerar uma exceção que gere o sinal `SIGFPE`.
+> ✋ `tratar_exc_pf` é a função que não consegui testar, porque ao testar `hoc2` eu não consegui gerar uma exceção que produza o sinal `SIGFPE`.
 
 ## Construir e testar
 
@@ -222,7 +222,7 @@ $ ./hoc2 < testes.hoc
 	100
 ```
 
-O arquivo de testes agora tem este conteúdo:
+O arquivo `testes.hoc` agora tem este conteúdo:
 
 ```
 a = 2 + 2

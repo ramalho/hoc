@@ -20,12 +20,17 @@ rm hoc2.o hoc2.c
 
 O arquivo `testes.hoc` tem alguns casos de testes básicos.
 
-Forneça `testes.hoc` para `hoc1b` via entrada padrão, usando `<`. Esse é resultado esperado:
+Forneça `testes.hoc` para `hoc1b` via entrada padrão, usando `<`. Esse é resultado esperado — inclusive a divisão por zero, que é proposital:
 
-```
+```bash
+$ ./hoc2 < testes.hoc 
 	4
 	-7
+	14
+	0
 	37.777778
+	100
+./hoc2: division by zero near line 7
 	100
 ```
 
